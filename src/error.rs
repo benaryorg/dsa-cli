@@ -1,3 +1,6 @@
+use error_chain::error_chain;
+pub use error_chain::bail;
+
 error_chain! {
 	links
 	{
@@ -7,6 +10,8 @@ error_chain! {
 	{
 		Io(::std::io::Error);
 		XmlParser(::roxmltree::Error);
+		NumberParsing(::std::num::ParseIntError);
+		CommandLineParsing(::clap::Error);
 	}
 
 	errors

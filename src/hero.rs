@@ -5,11 +5,11 @@ use std::collections::HashMap;
 #[derive(Debug,Clone)]
 pub struct Hero
 {
-	name: String,
-	health: isize,
-	endurance: isize,
-	astral: isize,
-	basevalues: HashMap<BaseValue,isize>,
+	pub name: String,
+	pub health: isize,
+	pub endurance: isize,
+	pub astral: isize,
+	pub basevalues: HashMap<BaseValue,isize>,
 }
 
 impl std::str::FromStr for Hero
@@ -86,7 +86,7 @@ impl std::str::FromStr for Hero
 }
 
 #[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
-enum BaseValue
+pub enum BaseValue
 {
 	Courage,
 	Intelligence,
