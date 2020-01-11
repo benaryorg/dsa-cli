@@ -28,6 +28,10 @@ fn main() -> Result<()>
 				.required(true)
 				)
 		.subcommand
+			( SubCommand::with_name("dump")
+			.about("dump hero information")
+			)
+		.subcommand
 			( SubCommand::with_name("cli")
 			.about("interactive mode")
 			)
@@ -42,7 +46,16 @@ fn main() -> Result<()>
 		text.parse::<Hero>().chain_err(|| "failed parsing hero file")?
 	};
 
-    println!("{:?}",hero);
+	if let Some(_matches) = matches.subcommand_matches("dump")
+	{
+		eprintln!("{:#?}",hero);
+		return Ok(());
+	}
+
+	if let Some(_matches) = matches.subcommand_matches("cli")
+	{
+		unimplemented!();
+	}
 
 	Ok(())
 }
