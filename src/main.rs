@@ -20,10 +20,6 @@ fn app() -> App<'static,'static>
 			( SubCommand::with_name("dump")
 			.about("dump hero information")
 			)
-		.subcommand
-			( SubCommand::with_name("cli")
-			.about("interactive mode")
-			)
 }
 
 fn main() -> Result<()>
@@ -37,6 +33,10 @@ fn main() -> Result<()>
 			.help("the XML file for your hero")
 			.takes_value(true)
 			.required(true)
+			)
+		.subcommand
+			( SubCommand::with_name("cli")
+			.about("interactive mode")
 			)
 		.get_matches();
 

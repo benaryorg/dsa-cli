@@ -12,6 +12,7 @@ error_chain! {
 		XmlParser(::roxmltree::Error);
 		NumberParsing(::std::num::ParseIntError);
 		CommandLineParsing(::clap::Error);
+		LineEditing(::rustyline::error::ReadlineError);
 	}
 
 	errors
