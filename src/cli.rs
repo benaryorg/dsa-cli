@@ -61,6 +61,13 @@ pub fn run_cli(hero: Hero) -> Result<()>
 								.about("clear the screen")
 								)
 							.subcommand
+								( SubCommand::with_name("damage")
+								.about("do damage")
+								.arg
+									( Arg::with_name("foo")
+									)
+								)
+							.subcommand
 								( SubCommand::with_name("exit")
 								.about("interactive mode")
 								)
@@ -70,6 +77,12 @@ pub fn run_cli(hero: Hero) -> Result<()>
 						if let Some(_matches) = matches.subcommand_matches("clear")
 						{
 							cli_history.clear();
+							return Ok(false);
+						}
+						if let Some(matches) = matches.subcommand_matches("damage")
+						{
+							let damage = matches.value_of("foo").unwrap();
+							change_stat(&mut current_health,&damage);
 							return Ok(false);
 						}
 						if let Some(_matches) = matches.subcommand_matches("exit")
