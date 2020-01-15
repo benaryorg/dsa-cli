@@ -52,24 +52,24 @@ impl Action for Roll
 			}
 			if num_20 > 1
 			{
-				write!(output,"\ncritical fail")?;
+				writeln!(output,"\ncritical fail")?;
 				continue;
 			}
 			if num_1 > 1
 			{
-				write!(output,"\ncritical success")?;
+				writeln!(output,"\ncritical success")?;
 				continue;
 			}
 			if base < 0
 			{
-				write!(output,"\nfailed ({})",base)?;
+				writeln!(output,"\nfailed ({})",base)?;
 			}
 			else
 			{
-				write!(output,"\nsuccess ({})",base)?;
+				writeln!(output,"\nsuccess ({})",base)?;
 			}
 		}
-		Ok(Some(String::from_utf8(output)?))
+		Ok(Some(String::from_utf8(output)?.trim_end_matches('\n').to_owned()))
 	}
 }
 
