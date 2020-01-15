@@ -18,11 +18,11 @@ pub fn run_cli(hero: Hero) -> Result<()>
 {
 	let mut current_health = hero.health;
 	let mut current_astral = hero.astral;
-    let d20: Uniform<_> = (1..21).into();
-    let mut rng = rand::thread_rng();
+	let d20: Uniform<_> = (1..21).into();
+	let mut rng = rand::thread_rng();
 	let sleep_duration = std::time::Duration::from_millis(10);
-    let mut cli_text = String::new();
-    let mut cli_history = String::new();
+	let mut cli_text = String::new();
+	let mut cli_history = String::new();
 
 	// Terminal initialization
 	let stdout = std::io::stdout().into_raw_mode()?;
