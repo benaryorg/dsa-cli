@@ -10,6 +10,7 @@ pub struct Hero
 	pub endurance: isize,
 	pub astral: isize,
 	pub basevalues: HashMap<BaseValue,isize>,
+	pub skills: HashMap<String,(isize,[BaseValue;3])>,
 }
 
 impl std::str::FromStr for Hero
@@ -55,6 +56,28 @@ impl std::str::FromStr for Hero
 
 		use BaseValue::*;
 
+		let skills = held.children().into_iter()
+			.filter(|elem| elem.has_tag_name("talentliste"))
+			.next()
+			.ok_or("hero does not have skills")?;
+		let skills: HashMap<_,_> = skills.children().into_iter()
+			.map(|elem| -> Result<(String,(isize,[BaseValue;3]))>
+				{
+					let name = elem.attribute("name").unwrap_or("").to_lowercase();
+					let value = elem.attribute("value").and_then(|i| i.parse().ok()).unwrap_or(0);
+					let probe = elem.attribute("probe").ok_or("probe not parsable")?;
+					let probe = probe.trim().trim_start_matches('(').trim_end_matches(')');
+					let probe = probe.split('/').map(|basevalue| basevalue.parse::<BaseValue>()).collect::<Result<Vec<_>>>()?;
+					if probe.len() != 3
+					{
+						bail!("skill does not have three 'probe'");
+					}
+					Ok((name,(value,[probe[0],probe[1],probe[2]])))
+				})
+			.filter(|res| res.is_ok())
+			.map(|res| res.unwrap())
+			.collect();
+
 		let hero = Hero
 		{
 			name: held.attribute("name").ok_or("hero does not have a name")?.into(),
@@ -79,6 +102,7 @@ impl std::str::FromStr for Hero
 				((mu as f32 + int as f32 + ch as f32) / 2.0).round() as isize + astral_base
 			},
 			basevalues,
+			skills,
 		};
 
 		Ok(hero)
