@@ -1,11 +1,8 @@
 use super::*;
-use crate::hero::BaseValue;
 
 use std::collections::HashMap;
 
 use rustyline::Editor;
-use rand::distributions::Uniform;
-use clap::{Arg, App, AppSettings, SubCommand};
 
 pub struct Cli;
 
