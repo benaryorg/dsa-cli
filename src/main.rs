@@ -26,6 +26,7 @@ fn main() -> Result<()>
 	let subcommands =
 		[ Box::new(action::Dump) as Box<dyn Action>
 		, Box::new(action::Cli) as Box<dyn Action>
+		, Box::new(action::Roll) as Box<dyn Action>
 		];
 	let subcommands = subcommands.into_iter()
 		.map(|command|

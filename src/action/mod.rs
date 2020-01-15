@@ -1,6 +1,6 @@
 use crate::error::*;
 use super::Hero;
-use super::{App, ArgMatches, SubCommand};
+use super::{App, Arg, ArgMatches, SubCommand};
 
 pub use commands::*;
 
@@ -16,6 +16,8 @@ mod commands
 
 	mod cli;
 	pub use cli::Cli;
+	mod roll;
+	pub use roll::Roll;
 
 	pub struct Dump;
 

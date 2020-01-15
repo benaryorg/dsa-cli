@@ -18,6 +18,7 @@ impl Action for Cli
 	{
 		let subcommands =
 			[ Box::new(Dump) as Box<dyn Action>
+			, Box::new(Roll) as Box<dyn Action>
 			];
 		let subcommands = subcommands.into_iter()
 			.map(|command|
