@@ -1,3 +1,5 @@
+[![github-ci-badge](https://github.com/benaryorg/dsa-cli/workflows/ci/badge.svg)](https://github.com/benaryorg/dsa-cli/actions)
+
 # What is this?
 
 We've got a party of around half a dozen people and I got tired of keeping
