@@ -40,7 +40,7 @@ impl Action for Cli
 			});
 			let args = match args
 			{
-				Ok(args) if args == ["exit"] => break,
+				Ok(ref args) if args.eq(&["exit"]) => break,
 				args => args,
 			};
 
