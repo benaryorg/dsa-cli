@@ -2,15 +2,38 @@ name: ci
 
 on: [push]
 
+# Currently not supported, use later I guess
+#var:
+#  - &build-steps
+#    steps:
+#      - uses: actions/checkout@v1
+#
+#      - name: build
+#        run: cargo build --verbose
+#      - name: test
+#        run: cargo test --verbose
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  build-ubuntu:
+    #<<: *build-steps
+    runs-on:
+      - ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-
-    - name: build
-      run: cargo build --verbose
-    - name: test
-      run: cargo test --verbose
+      - uses: actions/checkout@v1
+                                   
+      - name: build
+        run: cargo build --verbose
+      - name: test
+        run: cargo test --verbose
+  build-windows:
+    #<<: *build-steps
+    runs-on:
+      - windows-latest
+    steps:
+      - uses: actions/checkout@v1
+                                   
+      - name: build
+        run: cargo build --verbose
+      - name: test
+        run: cargo test --verbose
 
