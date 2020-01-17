@@ -1,6 +1,7 @@
 pub mod error;
 mod action;
 mod hero;
+mod output;
 
 use error::*;
 use action::Action;
@@ -58,12 +59,15 @@ fn main() -> Result<()>
 		text.parse::<Hero>().chain_err(|| "failed parsing hero file")?
 	};
 
+	let formatter = output::humanreadable();
+
 	let (command, args) = matches.subcommand();
 	// we only add subcommands from that hashmap so it MUST be present
 	let command = subcommands.get(command).unwrap_or_else(|| unreachable!());
 	// we used .subcommand() so the command MUST be present
 	let args = args.unwrap_or_else(|| unreachable!());
-	if let Some(output) = command.call(&hero,&args)?
+	let output = command.call(&hero,&args)?;
+	if let Some(output) = formatter.format(&output)
 	{
 		println!("{}",output);
 	}

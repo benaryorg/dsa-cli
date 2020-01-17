@@ -1,4 +1,6 @@
 use super::*;
+use crate::output;
+use crate::output::Output;
 
 use std::collections::HashMap;
 
@@ -14,7 +16,7 @@ impl Action for Cli
 			.about("interactive command line client")
 	}
 
-	fn call(&self,hero: &Hero,_: &ArgMatches) -> Result<Option<String>>
+	fn call(&self,hero: &Hero,_: &ArgMatches) -> Result<Output>
 	{
 		let subcommands =
 			[ Box::new(Dump) as Box<dyn Action>
@@ -44,7 +46,7 @@ impl Action for Cli
 				args => args,
 			};
 
-			let result = (|args: Result<Vec<_>>|
+			let result = (|args: Result<Vec<_>>| -> Result<Option<String>>
 			{
 				let app = crate::app()
 					.subcommands(subcommands.values().map(|command| command.usage()));
@@ -57,7 +59,11 @@ impl Action for Cli
 				let command = subcommands.get(command).unwrap_or_else(|| unreachable!());
 				// we used .subcommand() so the command MUST be present
 				let args = args.unwrap_or_else(|| unreachable!());
-				command.call(&hero,&args)
+
+				let formatter = output::humanreadable();
+
+				let result = command.call(&hero,&args)?;
+				Ok(formatter.format(&result))
 			})(args.map_err(|err| err.into()));
 
 			match result
@@ -68,7 +74,7 @@ impl Action for Cli
 			}
 		}
 
-		Ok(None)
+		Ok(Output::None)
 	}
 }
 

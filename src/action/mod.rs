@@ -1,12 +1,13 @@
 use crate::error::*;
-use super::Hero;
+use crate::hero::*;
+use crate::output::Output;
 use super::{App, Arg, ArgMatches, SubCommand};
 
 pub use commands::*;
 
 pub trait Action
 {
-	fn call(&self,hero: &Hero, matches: &ArgMatches) -> Result<Option<String>>;
+	fn call(&self,hero: &Hero, matches: &ArgMatches) -> Result<Output>;
 	fn usage(&self) -> App;
 }
 
@@ -29,9 +30,9 @@ mod commands
 				.about("dump hero information")
 		}
 
-		fn call(&self,hero: &Hero,_: &ArgMatches) -> Result<Option<String>>
+		fn call(&self,hero: &Hero,_: &ArgMatches) -> Result<Output>
 		{
-			Ok(Some(format!("{:#?}",hero)))
+			Ok(Output::Dump(hero.clone()))
 		}
 	}
 }

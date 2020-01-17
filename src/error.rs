@@ -13,7 +13,6 @@ error_chain! {
 		NumberParsing(::std::num::ParseIntError);
 		CommandLineParsing(::clap::Error);
 		LineEditing(::rustyline::error::ReadlineError);
-		Utf8Parsing(::std::string::FromUtf8Error);
 	}
 
 	errors
