@@ -32,7 +32,7 @@ impl Formatter for formats::HumanReadable
 				let mut output = vec![];
 
 				let stat_mod = 0.max(mods - base);
-				writeln!(output,"base: {} (= {} {:+} mod)", 0.max(base - mods), base, mods).unwrap();
+				writeln!(output,"base: {} (= {}, {:+} mod)", 0.max(base - mods), base, mods).unwrap();
 				base = 0.max(base - mods);
 				if stat_mod > 0
 				{

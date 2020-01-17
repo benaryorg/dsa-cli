@@ -11,6 +11,16 @@ impl Action for Roll
 		SubCommand::with_name("roll")
 			.about("roll for a skill")
 			.arg
+				( Arg::with_name("modifier")
+				.short("m")
+				.long("modifier")
+				.alias("mod")
+				.help("modification as positive (bad) or negative (good) integer")
+				.takes_value(true)
+				.multiple(true)
+				.number_of_values(1)
+				)
+			.arg
 				( Arg::with_name("skill")
 				.value_name("SKILL")
 				.help("the skills to test")
@@ -25,6 +35,14 @@ impl Action for Roll
 		let mut rng = rand::thread_rng();
 
 		let skill = matches.value_of("skill").unwrap();
+
+		let mods = matches.values_of("modifier")
+			.map(|mods| mods
+				.map(|modi| Ok(modi.parse()?))
+				.collect::<Result<Vec<isize>>>()
+				.map(|mods| mods.into_iter().sum())
+			)
+			.unwrap_or(Ok(0))?;
 
 		// TODO: use custom error
 		let (base,values_enum) = hero.skills.get(&skill.to_lowercase()).ok_or(format!("unknown skill '{}'", skill))?;
@@ -53,8 +71,10 @@ impl Action for Roll
 		};
 		let num_20 = rolls.iter().filter(|i| **i == 20).count();
 		let num_1 = rolls.iter().filter(|i| **i == 1).count();
-		let result = base + rolls.iter().zip(values.iter())
-			.map(|(die,stat)| (stat-die).min(0))
+		let result = 0.max(base - mods) + values.iter()
+			.map(|stat| stat + 0.min(base - mods))
+			.zip(rolls.iter())
+			.map(|(stat,die)| (stat-die).min(0))
 			.sum::<isize>();
 
 		Ok(Output::Roll
@@ -66,8 +86,7 @@ impl Action for Roll
 			stat: values,
 			remainder: result,
 			base: *base,
-			// TODO: mods
-			mods: 0,
+			mods: mods,
 		})
 	}
 }
