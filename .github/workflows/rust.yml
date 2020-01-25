@@ -12,6 +12,12 @@ on: [push]
 #        run: cargo build --verbose
 #      - name: test
 #        run: cargo test --verbose
+#      - name: clippy
+#        run: cargo clippy --verbose
+#      - name: release build
+#        run: cargo build --release --verbose
+#      - name: doc
+#        run: cargo doc --release --verbose
 
 jobs:
   build-ubuntu:
@@ -20,24 +26,44 @@ jobs:
       - ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-                                   
+
       - name: build
         run: cargo build --verbose
       - name: test
         run: cargo test --verbose
       - name: clippy
         run: cargo clippy --verbose
+      - name: release build
+        run: cargo build --release --verbose
+      - name: doc
+        run: cargo doc --release --verbose
+
+      - uses: actions/upload-artifact@v1
+        if: success()
+        with:
+          name: release-ubuntu
+          path: target/release/dsa-cli
   build-windows:
     #<<: *build-steps
     runs-on:
       - windows-latest
     steps:
       - uses: actions/checkout@v1
-                                   
+
       - name: build
         run: cargo build --verbose
       - name: test
         run: cargo test --verbose
       - name: clippy
         run: cargo clippy --verbose
+      - name: release build
+        run: cargo build --release --verbose
+      - name: doc
+        run: cargo doc --release --verbose
+
+      - uses: actions/upload-artifact@v1
+        if: success()
+        with:
+          name: release-windows
+          path: target/release/dsa-cli.exe
 
