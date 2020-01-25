@@ -19,8 +19,8 @@ mod commands
 	pub use cli::Cli;
 	mod roll;
 	pub use roll::Roll;
-	mod health;
-	pub use health::Health;
+	mod tracker;
+	pub use tracker::Tracker;
 
 	pub struct Dump;
 

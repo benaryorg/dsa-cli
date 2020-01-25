@@ -21,7 +21,7 @@ impl Action for Cli
 		let subcommands = vec!
 			[ Dump::new_action()
 			, Roll::new_action()
-			, Health::new_action(hero.health)
+			, Tracker::new_action("health",hero.health,hero.health)
 			];
 		let mut subcommands: HashMap<String,Box<dyn Action>> = subcommands.into_iter()
 			.map(|command|

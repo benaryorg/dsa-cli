@@ -1,59 +1,61 @@
 use super::*;
 
-pub struct Health
+pub struct Tracker<'a>
 {
+	name: &'a str,
 	max: isize,
 	current: isize,
 }
 
-impl Health
+impl<'a> Tracker<'a>
 {
-	pub fn new_action(health: isize) -> Box<dyn Action>
+	pub fn new_action(name: &'static str,current: isize,max: isize) -> Box<dyn Action>
 	{
-		Box::new(Health
+		Box::new(Tracker
 		{
-			max: health,
-			current: health,
+			name,
+			max,
+			current,
 		})
 	}
 }
 
-impl Action for Health
+impl Action for Tracker<'_>
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>
 	{
-		SubCommand::with_name("health")
-			.about("track your current health")
+		SubCommand::with_name(self.name)
+			.about("track the current value")
 			.arg
 				( Arg::with_name("get")
 				.long("get")
 				.short("g")
-				.help("get health status (default)")
+				.help("get current value (default)")
 				)
 			.arg
 				( Arg::with_name("set")
 				.long("set")
 				.short("s")
-				.help("set current health")
+				.help("set current value")
 				.takes_value(true)
 				)
 			.arg
 				( Arg::with_name("add")
 				.long("add")
-				.help("add to current health")
+				.help("add to current value")
 				.takes_value(true)
 				)
 			.arg
 				( Arg::with_name("sub")
 				.long("sub")
-				.help("subtract of current health")
+				.help("subtract of current value")
 				.takes_value(true)
 				)
 			.arg
 				( Arg::with_name("max")
 				.long("max")
 				.short("m")
-				.help("change max health instead of current")
+				.help("change max value instead of current")
 				)
 			.group
 				( ArgGroup::with_name("action")
@@ -79,8 +81,9 @@ impl Action for Health
 		self.max = self.max.max(0);
 		self.current = self.current.max(0).min(self.max);
 
-		Ok(Output::Health
+		Ok(Output::Gauge
 		{
+			name: self.name.to_string(),
 			current: self.current,
 			max: self.max,
 		})
