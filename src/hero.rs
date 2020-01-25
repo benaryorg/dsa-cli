@@ -7,7 +7,7 @@ pub struct Hero
 {
 	pub name: String,
 	pub health: isize,
-	pub endurance: isize,
+	pub stamina: isize,
 	pub astral: isize,
 	pub basevalues: HashMap<BaseValue,isize>,
 	pub skills: HashMap<String,(isize,[BaseValue;3])>,
@@ -45,7 +45,7 @@ impl std::str::FromStr for Hero
 				})
 			.collect();
 		let health_base = basevalues.remove("lebensenergie").unwrap_or(0);
-		let endurance_base = basevalues.remove("ausdauer").unwrap_or(0);
+		let stamina_base = basevalues.remove("ausdauer").unwrap_or(0);
 		let astral_base = basevalues.remove("astralenergie").unwrap_or(0);
 		let basevalues: HashMap<_,_> = basevalues.into_iter()
 			.map(|(k,v)| (k.parse::<BaseValue>().ok(),v))
@@ -85,12 +85,12 @@ impl std::str::FromStr for Hero
 				let kk = *basevalues.get(&Strength).unwrap_or(&0);
 				((ko as f32 * 2.0 + kk as f32) / 2.0).round() as isize + health_base
 			},
-			endurance:
+			stamina:
 			{
 				let mu = *basevalues.get(&Courage).unwrap_or(&0);
 				let ko = *basevalues.get(&Constitution).unwrap_or(&0);
 				let ge = *basevalues.get(&Dexterity).unwrap_or(&0);
-				((mu as f32 + ko as f32 + ge as f32) / 2.0).round() as isize + endurance_base
+				((mu as f32 + ko as f32 + ge as f32) / 2.0).round() as isize + stamina_base
 			},
 			astral:
 			{
