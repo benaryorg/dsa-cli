@@ -1,0 +1,60 @@
+name: release
+
+on:
+  push:
+    tags:
+      - release/v*
+
+# Currently not supported, use later I guess
+#var:
+#  - &build-steps
+#    steps:
+#      - uses: actions/checkout@v1
+#
+#      - name: release build
+#        run: cargo build --release --verbose
+#      - name: doc
+#        run: cargo doc --release --verbose
+#      - uses: actions/upload-artifact@v1
+#
+#        if: success()
+#        with:
+#          name: release-${…}
+#          path: target/release/dsa-cli[.exe]
+
+jobs:
+  build-ubuntu:
+    #<<: *build-steps
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: release build
+        run: cargo build --release --verbose
+      - name: doc
+        run: cargo doc --release --verbose
+
+      - uses: actions/upload-artifact@v1
+        if: success()
+        with:
+          name: release-ubuntu
+          path: target/release/dsa-cli
+  build-windows:
+    #<<: *build-steps
+    runs-on:
+      - windows-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: release build
+        run: cargo build --release --verbose
+      - name: doc
+        run: cargo doc --release --verbose
+
+      - uses: actions/upload-artifact@v1
+        if: success()
+        with:
+          name: release-windows
+          path: target/release/dsa-cli.exe
+
