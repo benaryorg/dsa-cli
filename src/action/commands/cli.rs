@@ -4,7 +4,7 @@ use crate::output::Output;
 
 use std::collections::HashMap;
 
-use rustyline::Editor;
+use rustyline::{Config, Editor};
 
 pub struct Cli;
 
@@ -32,7 +32,13 @@ impl Action for Cli
 			})
 			.collect();
 
-		let mut rl = Editor::<()>::new();
+		let mut rl = Editor::<()>::with_config(Config::builder()
+			.max_history_size(1024*512) // with 80 characters per line that's 40MiB
+			.history_ignore_dups(false)
+			.history_ignore_space(true)
+			.auto_add_history(true)
+			.tab_stop(4)
+			.build());
 		for line in rl.iter("% ")
 		{
 			let args = line.map(|line|
