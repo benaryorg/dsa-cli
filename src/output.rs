@@ -47,7 +47,7 @@ impl Formatter for formats::HumanReadable
 						Ordering::Equal => '=',
 						Ordering::Greater => '>',
 					};
-					writeln!(output,"{:16} | {:2} {} {:2} = {:3} | {:3} ⇒ {:3}",
+					writeln!(output,"{:16} | {:2} {} {:2} = {:3} | {:3} => {:3}",
 						format!("{:?}", check),
 						die, sym, stat, 0.max(die - stat),
 						base, base - 0.max(die - stat),
