@@ -1,4 +1,5 @@
-[![github-ci-badge](https://github.com/benaryorg/dsa-cli/workflows/ci/badge.svg)](https://github.com/benaryorg/dsa-cli/actions)
+![release](https://github.com/benaryorg/dsa-cli/workflows/release/badge.svg)
+![ci](https://github.com/benaryorg/dsa-cli/workflows/ci/badge.svg)
 
 # What is this?
 
