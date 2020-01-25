@@ -24,18 +24,17 @@ fn app() -> App<'static,'static>
 
 fn main() -> Result<()>
 {
-	let subcommands =
+	let subcommands = vec!
 		[ Box::new(action::Dump) as Box<dyn Action>
 		, Box::new(action::Cli) as Box<dyn Action>
 		, Box::new(action::Roll) as Box<dyn Action>
 		];
-	let subcommands = subcommands.into_iter()
+	let mut subcommands: HashMap<String,Box<dyn Action>> = subcommands.into_iter()
 		.map(|command|
 		{
 			(command.usage().get_name().to_owned(),command)
 		})
-		.collect::<HashMap<_,_>>()
-		;
+		.collect();
 
 	let matches = app()
 		.arg
@@ -63,7 +62,7 @@ fn main() -> Result<()>
 
 	let (command, args) = matches.subcommand();
 	// we only add subcommands from that hashmap so it MUST be present
-	let command = subcommands.get(command).unwrap_or_else(|| unreachable!());
+	let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
 	// we used .subcommand() so the command MUST be present
 	let args = args.unwrap_or_else(|| unreachable!());
 	let output = command.call(&hero,&args)?;

@@ -6,7 +6,7 @@ pub struct Roll;
 
 impl Action for Roll
 {
-	fn usage(&self) -> App
+	fn usage<'a,'b>(&'a self) -> App<'b,'b>
 	{
 		SubCommand::with_name("roll")
 			.about("roll for a skill")
@@ -29,7 +29,7 @@ impl Action for Roll
 				)
 	}
 
-	fn call(&self, hero: &Hero, matches: &ArgMatches) -> Result<Output>
+	fn call(&mut self, hero: &Hero, matches: &ArgMatches) -> Result<Output>
 	{
 		let d20: Uniform<_> = (1..21).into();
 		let mut rng = rand::thread_rng();

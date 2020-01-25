@@ -7,8 +7,8 @@ pub use commands::*;
 
 pub trait Action
 {
-	fn call(&self,hero: &Hero, matches: &ArgMatches) -> Result<Output>;
-	fn usage(&self) -> App;
+	fn usage<'a,'b>(&'a self) -> App<'b,'b>;
+	fn call(&mut self,hero: &Hero, matches: &ArgMatches) -> Result<Output>;
 }
 
 mod commands
@@ -24,13 +24,13 @@ mod commands
 
 	impl Action for Dump
 	{
-		fn usage(&self) -> App
+		fn usage<'a,'b>(&'a self) -> App<'b,'b>
 		{
 			SubCommand::with_name("dump")
 				.about("dump hero information")
 		}
 
-		fn call(&self,hero: &Hero,_: &ArgMatches) -> Result<Output>
+		fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Output>
 		{
 			Ok(Output::Dump(hero.clone()))
 		}
