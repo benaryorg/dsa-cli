@@ -61,6 +61,7 @@ impl Formatter for formats::HumanReadable
 				).unwrap();
 				Some(String::from_utf8_lossy(&output).to_string())
 			},
+			Output::Health {current,max} => Some(format!("current health: {}/{} ({}%)",current,max,((100 * *current) as f64 / *max as f64).round())),
 		}
 	}
 }
@@ -79,6 +80,11 @@ pub enum Output
 		checks: [BaseValue;3],
 		stat: [isize;3],
 		dice: [isize;3],
+	},
+	Health
+	{
+		current: isize,
+		max: isize,
 	},
 	Dump(Hero),
 }
