@@ -22,6 +22,8 @@ impl Action for Cli
 			[ Dump::new_action()
 			, Roll::new_action()
 			, Tracker::new_action("health",hero.health,hero.health)
+			, Tracker::new_action("astral",hero.astral,hero.astral)
+			, Tracker::new_action("stamina",hero.stamina,hero.stamina)
 			];
 		let mut subcommands: HashMap<String,Box<dyn Action>> = subcommands.into_iter()
 			.map(|command|
