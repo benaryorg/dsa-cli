@@ -19,8 +19,8 @@ impl Action for Cli
 	fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Output>
 	{
 		let subcommands = vec!
-			[ Box::new(Dump) as Box<dyn Action>
-			, Box::new(Roll) as Box<dyn Action>
+			[ Dump::new_action()
+			, Roll::new_action()
 			];
 		let mut subcommands: HashMap<String,Box<dyn Action>> = subcommands.into_iter()
 			.map(|command|

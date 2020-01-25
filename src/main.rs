@@ -11,7 +11,7 @@ use std::fs::File;
 use std::io::Read;
 use std::collections::HashMap;
 
-use clap::{App, Arg, ArgMatches, SubCommand};
+use clap::{App, Arg};
 
 fn app() -> App<'static,'static>
 {

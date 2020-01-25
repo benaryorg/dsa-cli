@@ -1,7 +1,7 @@
 use crate::error::*;
 use crate::hero::*;
 use crate::output::Output;
-use super::{App, Arg, ArgMatches, SubCommand};
+use clap::{App, Arg, ArgGroup, ArgMatches, SubCommand};
 
 pub use commands::*;
 
@@ -21,6 +21,14 @@ mod commands
 	pub use roll::Roll;
 
 	pub struct Dump;
+
+	impl Dump
+	{
+		fn new_action() -> Box<dyn Action>
+		{
+			Box::new(Dump)
+		}
+	}
 
 	impl Action for Dump
 	{

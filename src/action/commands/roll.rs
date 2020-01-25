@@ -4,6 +4,14 @@ use rand::distributions::{Distribution, Uniform};
 
 pub struct Roll;
 
+impl Roll
+{
+	pub fn new_action() -> Box<dyn Action>
+	{
+		Box::new(Roll)
+	}
+}
+
 impl Action for Roll
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>
