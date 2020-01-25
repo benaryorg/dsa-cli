@@ -51,7 +51,7 @@ impl Action for Cli
 					.subcommands(subcommands.values().map(|command| command.usage()));
 
 				// hackily insert an empty string as argv[0]
-				let matches = app.get_matches_from_safe([String::new()].into_iter().chain(args?.iter()))?;
+				let matches = app.get_matches_from_safe([String::new()].iter().chain(args?.iter()))?;
 				
 				let (command, args) = matches.subcommand();
 				// we only add subcommands from that hashmap so it MUST be present

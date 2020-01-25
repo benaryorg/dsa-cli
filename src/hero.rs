@@ -32,11 +32,10 @@ impl std::str::FromStr for Hero
 			.ok_or("root element does not contain held element")?;
 
 		// get the basevalues
-		let basevalues = held.children().into_iter()
-			.filter(|elem| elem.has_tag_name("eigenschaften"))
-			.next()
+		let basevalues = held.children()
+			.find(|elem| elem.has_tag_name("eigenschaften"))
 			.ok_or("hero does not have base values")?;
-		let mut basevalues: HashMap<_,isize> = basevalues.children().into_iter()
+		let mut basevalues: HashMap<_,isize> = basevalues.children()
 			.map(|elem|
 				{
 					let name = elem.attribute("name").unwrap_or("").to_lowercase();
@@ -56,11 +55,10 @@ impl std::str::FromStr for Hero
 
 		use BaseValue::*;
 
-		let skills = held.children().into_iter()
-			.filter(|elem| elem.has_tag_name("talentliste"))
-			.next()
+		let skills = held.children()
+			.find(|elem| elem.has_tag_name("talentliste"))
 			.ok_or("hero does not have skills")?;
-		let skills: HashMap<_,_> = skills.children().into_iter()
+		let skills: HashMap<_,_> = skills.children()
 			.map(|elem| -> Result<(String,(isize,[BaseValue;3]))>
 				{
 					let name = elem.attribute("name").unwrap_or("").to_lowercase();

@@ -25,6 +25,8 @@ jobs:
         run: cargo build --verbose
       - name: test
         run: cargo test --verbose
+      - name: clippy
+        run: cargo clippy --verbose
   build-windows:
     #<<: *build-steps
     runs-on:
@@ -36,4 +38,6 @@ jobs:
         run: cargo build --verbose
       - name: test
         run: cargo test --verbose
+      - name: clippy
+        run: cargo clippy --verbose
 

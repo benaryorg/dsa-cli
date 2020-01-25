@@ -45,7 +45,7 @@ impl Action for Roll
 			.unwrap_or(Ok(0))?;
 
 		// TODO: use custom error
-		let (base,values_enum) = hero.skills.get(&skill.to_lowercase()).ok_or(format!("unknown skill '{}'", skill))?;
+		let (base,values_enum) = hero.skills.get(&skill.to_lowercase()).ok_or_else(|| format!("unknown skill '{}'", skill))?;
 
 		let values =
 		{
@@ -82,11 +82,11 @@ impl Action for Roll
 			success: (num_20 < 2) && (result >= 0 || num_1 > 1),
 			critical: (num_20 > 1) || (num_1 > 1),
 			dice: rolls,
-			checks: values_enum.clone(),
+			checks: *values_enum,
 			stat: values,
 			remainder: result,
 			base: *base,
-			mods: mods,
+			mods,
 		})
 	}
 }
