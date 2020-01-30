@@ -65,10 +65,10 @@ fn main() -> Result<()>
 	let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
 	// we used .subcommand() so the command MUST be present
 	let args = args.unwrap_or_else(|| unreachable!());
-	let output = command.call(&hero,&args)?;
-	if let Some(output) = formatter.format(&output)
+	for result in command.call(&hero,&args)?.into_iter()
+		.map(|result| formatter.format(&result))
 	{
-		println!("{}",output);
+		println!("{}",result);
 	}
 
 	Ok(())

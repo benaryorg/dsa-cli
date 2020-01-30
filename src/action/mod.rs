@@ -8,7 +8,7 @@ pub use commands::*;
 pub trait Action
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>;
-	fn call(&mut self,hero: &Hero, matches: &ArgMatches) -> Result<Output>;
+	fn call(&mut self,hero: &Hero, matches: &ArgMatches) -> Result<Vec<Output>>;
 }
 
 mod commands
@@ -40,9 +40,9 @@ mod commands
 				.about("dump hero information")
 		}
 
-		fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Output>
+		fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Vec<Output>>
 		{
-			Ok(Output::Dump(hero.clone()))
+			Ok(vec![Output::Dump(hero.clone())])
 		}
 	}
 }

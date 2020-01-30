@@ -63,7 +63,7 @@ impl Action for Tracker<'_>
 				)
 	}
 
-	fn call(&mut self, _: &Hero, matches: &ArgMatches) -> Result<Output>
+	fn call(&mut self, _: &Hero, matches: &ArgMatches) -> Result<Vec<Output>>
 	{
 		if matches.is_present("action") && !matches.is_present("get")
 		{
@@ -81,12 +81,12 @@ impl Action for Tracker<'_>
 		self.max = self.max.max(0);
 		self.current = self.current.max(0).min(self.max);
 
-		Ok(Output::Gauge
+		Ok(vec![Output::Gauge
 		{
 			name: self.name.to_string(),
 			current: self.current,
 			max: self.max,
-		})
+		}])
 	}
 }
 

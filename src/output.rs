@@ -13,17 +13,16 @@ pub fn humanreadable() -> Box<dyn Formatter>
 
 pub trait Formatter
 {
-	fn format(&self, data: &Output) -> Option<String>;
+	fn format(&self, data: &Output) -> String;
 }
 
 impl Formatter for formats::HumanReadable
 {
-	fn format(&self, data: &Output) -> Option<String>
+	fn format(&self, data: &Output) -> String
 	{
 		match data
 		{
-			Output::None => None,
-			Output::Dump(hero) => Some(format!("{:#?}", hero)),
+			Output::Dump(hero) => format!("{:#?}", hero),
 			Output::Roll {success,critical,remainder,checks,stat,dice,mods,mut base} =>
 			{
 				use std::io::Write;
@@ -59,9 +58,9 @@ impl Formatter for formats::HumanReadable
 					if *success { "success" } else { "failure" },
 					remainder,
 				).unwrap();
-				Some(String::from_utf8_lossy(&output).to_string())
+				String::from_utf8_lossy(&output).to_string()
 			},
-			Output::Gauge {name,current,max} => Some(format!("current {}: {}/{} ({}%)",name,current,max,((100 * *current) as f64 / *max as f64).round())),
+			Output::Gauge {name,current,max} => format!("current {}: {}/{} ({}%)",name,current,max,((100 * *current) as f64 / *max as f64).round()),
 		}
 	}
 }
@@ -69,7 +68,6 @@ impl Formatter for formats::HumanReadable
 #[derive(Clone,Debug)]
 pub enum Output
 {
-	None,
 	Roll
 	{
 		success: bool,

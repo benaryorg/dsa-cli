@@ -16,7 +16,7 @@ impl Action for Cli
 			.about("interactive command line client")
 	}
 
-	fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Output>
+	fn call(&mut self,hero: &Hero,_: &ArgMatches) -> Result<Vec<Output>>
 	{
 		let subcommands = vec!
 			[ Dump::new_action()
@@ -54,7 +54,7 @@ impl Action for Cli
 				args => args,
 			};
 
-			let result = (|args: Result<Vec<_>>| -> Result<Option<String>>
+			let results = (|args: Result<Vec<_>>| -> Result<Vec<String>>
 			{
 				let app = crate::app()
 					.subcommands(subcommands.values().map(|command| command.usage()));
@@ -70,19 +70,26 @@ impl Action for Cli
 
 				let formatter = output::humanreadable();
 
-				let result = command.call(&hero,&args)?;
-				Ok(formatter.format(&result))
+				let results = command.call(&hero,&args)?.into_iter()
+					.map(|result| formatter.format(&result))
+					.collect();
+				Ok(results)
 			})(args.map_err(|err| err.into()));
 
-			match result
+			match results
 			{
-				Ok(None) => {},
-				Ok(Some(text)) => println!("{}",text),
+				Ok(results) =>
+				{
+					for result in results
+					{
+						println!("{}",result)
+					}
+				},
 				Err(error) => eprintln!("{}",error.description()),
 			}
 		}
 
-		Ok(Output::None)
+		Ok(vec![])
 	}
 }
 
