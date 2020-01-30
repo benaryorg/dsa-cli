@@ -1,6 +1,6 @@
 [package]
 name = "dsa-cli"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["benaryorg <binary@benary.org>"]
 edition = "2018"
 

@@ -16,7 +16,7 @@ use clap::{App, Arg};
 fn app() -> App<'static,'static>
 {
 	App::new("dsa-cli")
-		.version("0.1.1")
+		.version("0.1.2")
 		.author("benaryorg <binary@benary.org>")
 		.about("Calculates DSA Rolls")
 		.setting(clap::AppSettings::SubcommandRequiredElseHelp)
