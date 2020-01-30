@@ -2,6 +2,10 @@
 name = "dsa-cli"
 version = "0.2.0"
 authors = ["benaryorg <binary@benary.org>"]
+repository = "https://github.com/benaryorg/dsa-cli"
+description = "DSA command line client"
+readme = "README.md"
+license = "ISC"
 edition = "2018"
 
 [lib]
