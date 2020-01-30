@@ -15,8 +15,9 @@ pub mod output;
 /// # Examples
 ///
 /// ```
-/// let matches = app().get_matches_from(&["dsa-cli","-o","json"]);
-/// assert_eq!(matches.value_of("format"),"json");
+/// # use dsa::app;
+/// let matches = app().get_matches_from_safe(&["dsa-cli","-o","json","-V"]);
+/// assert_eq!(matches.err().unwrap().kind,clap::ErrorKind::VersionDisplayed);
 /// ```
 pub fn app() -> clap::App<'static,'static>
 {
