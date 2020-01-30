@@ -1,4 +1,5 @@
 use super::*;
+use crate::app;
 use crate::output;
 use crate::output::Output;
 
@@ -56,7 +57,7 @@ impl Action for Cli
 
 			let results = (|args: Result<Vec<_>>| -> Result<Vec<String>>
 			{
-				let app = crate::app()
+				let app = app()
 					.subcommands(subcommands.values().map(|command| command.usage()));
 
 				// hackily insert an empty string as argv[0]

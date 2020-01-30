@@ -4,6 +4,14 @@ version = "0.1.2"
 authors = ["benaryorg <binary@benary.org>"]
 edition = "2018"
 
+[lib]
+name = "dsa"
+path = "src/lib.rs"
+
+[[bin]]
+name = "dsa-cli"
+path = "src/main.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]

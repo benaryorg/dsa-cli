@@ -1,37 +1,14 @@
-pub mod error;
-mod action;
-mod hero;
-mod output;
-
-use error::*;
-use action::Action;
-use hero::Hero;
+use dsa::error::*;
+use dsa::action;
+use dsa::output;
+use dsa::action::Action;
+use dsa::hero::Hero;
 
 use std::fs::File;
 use std::io::Read;
 use std::collections::HashMap;
 
-use clap::{App, Arg};
-
-fn app() -> App<'static,'static>
-{
-	App::new("dsa-cli")
-		.version("0.1.2")
-		.author("benaryorg <binary@benary.org>")
-		.about("Calculates DSA Rolls")
-		.setting(clap::AppSettings::SubcommandRequiredElseHelp)
-		.arg
-			( Arg::with_name("format")
-			.short("o")
-			.long("output")
-			.alias("format")
-			.value_name("FORMAT")
-			.help("output format")
-			.possible_values(&output::Format::variants())
-			.default_value("humanreadable")
-			.case_insensitive(true)
-			)
-}
+use clap::Arg;
 
 fn main() -> Result<()>
 {
@@ -47,7 +24,7 @@ fn main() -> Result<()>
 		})
 		.collect();
 
-	let matches = app()
+	let matches = dsa::app()
 		.arg
 			( Arg::with_name("hero")
 			.short("f")
