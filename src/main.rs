@@ -1,8 +1,8 @@
 use dsa::error::*;
-use dsa::action;
 use dsa::output;
-use dsa::action::Action;
-use dsa::hero::Hero;
+use dsa::commands;
+use dsa::Action;
+use dsa::Hero;
 
 use std::fs::File;
 use std::io::Read;
@@ -13,9 +13,9 @@ use clap::Arg;
 fn main() -> Result<()>
 {
 	let subcommands = vec!
-		[ Box::new(action::Dump) as Box<dyn Action>
-		, Box::new(action::Cli) as Box<dyn Action>
-		, Box::new(action::Roll) as Box<dyn Action>
+		[ Box::new(commands::Dump) as Box<dyn Action>
+		, Box::new(commands::Cli) as Box<dyn Action>
+		, Box::new(commands::Roll) as Box<dyn Action>
 		];
 	let mut subcommands: HashMap<String,Box<dyn Action>> = subcommands.into_iter()
 		.map(|command|
@@ -46,7 +46,7 @@ fn main() -> Result<()>
 		text.parse::<Hero>().chain_err(|| "failed parsing hero file")?
 	};
 
-	let formatter = matches.value_of("format").unwrap().parse::<output::Format>()?.formatter();
+	let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
 
 	let (command, args) = matches.subcommand();
 	// we only add subcommands from that hashmap so it MUST be present

@@ -9,6 +9,8 @@ use rustyline::{Config, Editor};
 
 pub struct Cli;
 
+// TODO: more docs and examples
+/// Boots up a cli interface with trackers holding mutable state.
 impl Action for Cli
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>
@@ -69,7 +71,7 @@ impl Action for Cli
 				// we used .subcommand() so the command MUST be present
 				let args = args.unwrap_or_else(|| unreachable!());
 
-				let formatter = matches.value_of("format").unwrap().parse::<output::Format>()?.formatter();
+				let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
 
 				let results = command.call(&hero,&args)?.into_iter()
 					.map(|result| formatter.format(&result))

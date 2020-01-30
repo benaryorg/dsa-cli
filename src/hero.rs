@@ -1,15 +1,37 @@
 use crate::error::*;
 
+use error_chain::bail;
+
 use std::collections::HashMap;
 
+/// Public container for the hero attributes.
+///
+/// The fields themselves are documented below.
+/// All fields are public to allow for easy data access.
+/// *Hero* implements *std::str::FromStr* so `parse()` can be called on a `str` containing the xml export of the [Heldensoftware](https://www.helden-software.de/).
+///
+/// # Examples
+///
+/// ```
+/// use dsa::Hero;
+///
+/// let hero = "<helden>…</helden>".parse::<Hero>();
+/// assert!(hero.is_err());
+/// ```
 #[derive(Debug,Clone)]
 pub struct Hero
 {
+	/// Hero's name, e.g. Elvenor Elvington
 	pub name: String,
+	/// Maximum health as per base+(KO+KO+KK)/2
 	pub health: isize,
+	/// Maximum stamina as per base+(MU+KO+GE)/2
 	pub stamina: isize,
+	/// Maximum astral points as per base+(MU+IN+CH)/2
 	pub astral: isize,
+	/// The basic attributes (MU, KL, etc.)
 	pub basevalues: HashMap<BaseValue,isize>,
+	/// All skills documented in the xml, as a map of name to skill-level and attributes to roll on
 	pub skills: HashMap<String,(isize,[BaseValue;3])>,
 }
 
@@ -107,22 +129,48 @@ impl std::str::FromStr for Hero
 	}
 }
 
+/// Base values of a Hero.
+///
+/// The type implements *std::str::FromStr* and individual items are annotated with the possible values they are parsed from.
+/// Parsing is case insensitive, that is the to-be-parsed string is downcased before matching.
+///
+/// # Examples
+///
+/// ```should_panic
+/// # use dsa::{BaseValue, Hero};
+/// # let hero: Hero = unimplemented!();
+/// let _int = hero.basevalues.get(&BaseValue::Intelligence).unwrap_or(&0);
+/// ```
 #[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
 pub enum BaseValue
 {
+	/// MU, Mut, courage
 	Courage,
+	/// KL, Klugheit, intelligence
 	Intelligence,
+	/// IN, Intuition
 	Intuition,
+	/// CH, Charisma
 	Charisma,
+	/// FF, Fingerfertigkeit, prestidigitation
 	Prestidigitation,
+	/// GE, Gewandtheit, dexterity
 	Dexterity,
+	/// KO, Konstitution, constitution
 	Constitution,
+	/// KK, Körperkraft, strength
 	Strength,
+	/// GS, Sozialstatus, socialstatus
 	SocialStatus,
+	/// MR, Magieresistenz, magicrestistance
 	MagicResistance,
+	/// INI, Initiative
 	Initiative,
+	/// AT, Attacke, nahkampf, combat, closecombat
 	CloseCombat,
+	/// PA, Parrieren, parry
 	Parry,
+	/// FK, Fernkampf, ranged, rangedcombat
 	RangedCombat,
 }
 
@@ -154,3 +202,4 @@ impl std::str::FromStr for BaseValue
 		}
 	}
 }
+

@@ -6,9 +6,12 @@
 //! - keeping track of your health, astral points, and stamina
 
 pub mod error;
-pub mod action;
-pub mod hero;
 pub mod output;
+mod action;
+mod hero;
+
+pub use action::{commands, Action};
+pub use hero::{BaseValue, Hero};
 
 /// Helper to create the basic app with options common between the cli-subcommand and the main app.
 ///

@@ -1,5 +1,8 @@
+//! Error chain created using [error-chain](https://crates.io/crates/error-chain).
+//!
+//! It can be chained with the very same crate if desired for error handling.
+
 use error_chain::error_chain;
-pub use error_chain::bail;
 
 error_chain! {
 	links
