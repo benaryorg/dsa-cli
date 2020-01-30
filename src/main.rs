@@ -20,6 +20,17 @@ fn app() -> App<'static,'static>
 		.author("benaryorg <binary@benary.org>")
 		.about("Calculates DSA Rolls")
 		.setting(clap::AppSettings::SubcommandRequiredElseHelp)
+		.arg
+			( Arg::with_name("format")
+			.short("o")
+			.long("output")
+			.alias("format")
+			.value_name("FORMAT")
+			.help("output format")
+			.possible_values(&output::Format::variants())
+			.default_value("humanreadable")
+			.case_insensitive(true)
+			)
 }
 
 fn main() -> Result<()>
@@ -58,7 +69,7 @@ fn main() -> Result<()>
 		text.parse::<Hero>().chain_err(|| "failed parsing hero file")?
 	};
 
-	let formatter = output::humanreadable();
+	let formatter = matches.value_of("format").unwrap().parse::<output::Format>()?.formatter();
 
 	let (command, args) = matches.subcommand();
 	// we only add subcommands from that hashmap so it MUST be present

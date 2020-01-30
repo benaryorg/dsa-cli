@@ -68,7 +68,7 @@ impl Action for Cli
 				// we used .subcommand() so the command MUST be present
 				let args = args.unwrap_or_else(|| unreachable!());
 
-				let formatter = output::humanreadable();
+				let formatter = matches.value_of("format").unwrap().parse::<output::Format>()?.formatter();
 
 				let results = command.call(&hero,&args)?.into_iter()
 					.map(|result| formatter.format(&result))

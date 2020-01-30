@@ -1,14 +1,31 @@
 use crate::hero::*;
 
+use clap::arg_enum;
+
+arg_enum!
+{
+	#[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
+	pub enum Format
+	{
+		HumanReadable,
+	}
+}
+
+impl Format
+{
+	pub fn formatter(self) -> Box<dyn Formatter>
+	{
+		match self
+		{
+			Format::HumanReadable => Box::new(formats::HumanReadable),
+		}
+	}
+}
+
 mod formats
 {
 	#[derive(Copy,Clone,Hash,Debug)]
 	pub struct HumanReadable;
-}
-
-pub fn humanreadable() -> Box<dyn Formatter>
-{
-	Box::new(formats::HumanReadable)
 }
 
 pub trait Formatter
