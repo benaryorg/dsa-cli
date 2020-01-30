@@ -12,6 +12,8 @@ impl Roll
 	}
 }
 
+// TODO: more docs and examples
+/// Rolls the dice for a certain skill of the *Hero*, supports modifiers.
 impl Action for Roll
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>
