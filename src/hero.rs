@@ -139,7 +139,9 @@ impl std::str::FromStr for Hero
 /// ```
 /// # use dsa::{BaseValue, Hero};
 /// let hero = Hero::default();
-/// let int = hero.basevalues.get(&BaseValue::Intelligence).unwrap_or(&0);
+/// let int_fromstr = "KluGHeiT".parse().unwrap();
+/// assert_eq!(BaseValue::Intelligence,int_fromstr);
+/// let int = hero.basevalues.get(&int_fromstr).unwrap_or(&0);
 /// assert_eq!(0, *int);
 /// ```
 #[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
