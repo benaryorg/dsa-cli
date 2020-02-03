@@ -4,6 +4,8 @@
 //! - rolling the dice for you
 //! - dumping your character
 //! - keeping track of your health, astral points, and stamina
+// -Werror in test mode
+#![cfg_attr(test, deny(warnings))]
 
 pub mod error;
 pub mod output;
