@@ -4,19 +4,22 @@ use super::*;
 ///
 /// # Examples
 ///
-/// ```should_panic
+/// ```
 /// # use dsa::commands::Tracker;
 /// # use dsa::output::Output;
-/// let health = Tracker::new_action("health",10,10);
+/// let mut health = Tracker::new_action("health",10,10);
 /// let matches = health.usage().get_matches_from_safe(&["health","-s","5"]).unwrap();
-/// # let hero = unimplemented!();
+/// # let hero = Default::default();
 /// let output = health.call(&hero,&matches).unwrap();
 /// assert_eq!(output.len(), 1);
-/// if let Output::Gauge { name, current, max } = output[0] {
+/// if let Output::Gauge { name, current, max } = &output[0] {
 ///     assert_eq!("health", name);
-///     assert_eq!(5, current);
-///     assert_eq!(10, max);
+///     assert_eq!(5, *current);
+///     assert_eq!(10, *max);
 /// }
+/// # else {
+/// #     panic!("unexpected output");
+/// # }
 /// ```
 pub struct Tracker<'a>
 {

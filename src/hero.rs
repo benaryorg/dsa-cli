@@ -18,7 +18,7 @@ use std::collections::HashMap;
 /// let hero = "<helden>…</helden>".parse::<Hero>();
 /// assert!(hero.is_err());
 /// ```
-#[derive(Debug,Clone)]
+#[derive(Debug,Clone,Default)]
 pub struct Hero
 {
 	/// Hero's name, e.g. Elvenor Elvington
@@ -136,10 +136,11 @@ impl std::str::FromStr for Hero
 ///
 /// # Examples
 ///
-/// ```should_panic
+/// ```
 /// # use dsa::{BaseValue, Hero};
-/// # let hero: Hero = unimplemented!();
-/// let _int = hero.basevalues.get(&BaseValue::Intelligence).unwrap_or(&0);
+/// let hero = Hero::default();
+/// let int = hero.basevalues.get(&BaseValue::Intelligence).unwrap_or(&0);
+/// assert_eq!(0, *int);
 /// ```
 #[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
 pub enum BaseValue
