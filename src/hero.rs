@@ -49,8 +49,8 @@ impl std::str::FromStr for Hero
 		{
 			bail!("unknown root element");
 		}
-		let held = root.first_child()
-			.filter(|child| child.has_tag_name("held"))
+		let held = root.children()
+			.find(|child| child.has_tag_name("held"))
 			.ok_or("root element does not contain held element")?;
 
 		// get the basevalues
@@ -70,9 +70,12 @@ impl std::str::FromStr for Hero
 		let stamina_base = basevalues.remove("ausdauer").unwrap_or(0);
 		let astral_base = basevalues.remove("astralenergie").unwrap_or(0);
 		let basevalues: HashMap<_,_> = basevalues.into_iter()
-			.map(|(k,v)| (k.parse::<BaseValue>().ok(),v))
-			.filter(|(k,_)| k.is_some())
-			.map(|(k,v)| (k.unwrap(),v))
+			.filter_map(|(k,v)|
+			{
+				k.parse::<BaseValue>()
+					.map(|k| (k,v))
+					.ok()
+			})
 			.collect();
 
 		use BaseValue::*;
@@ -94,8 +97,7 @@ impl std::str::FromStr for Hero
 					}
 					Ok((name,(value,[probe[0],probe[1],probe[2]])))
 				})
-			.filter(|res| res.is_ok())
-			.map(|res| res.unwrap())
+			.filter_map(Result::ok)
 			.collect();
 
 		let hero = Hero
