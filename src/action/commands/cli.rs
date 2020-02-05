@@ -44,51 +44,54 @@ impl Action for Cli
 			.build());
 		for line in rl.iter("% ")
 		{
-			let args = line.map(|line|
+			let words = line
+				.map_err(|err| err.into())
+				.and_then(|line| Ok(shell_words::split(&line)?));
+
+			if let Ok(ref args) = words
 			{
-				line
-					.split_whitespace()
-					.map(|s| s.to_owned())
-					.collect::<Vec<_>>()
-			});
-			let args = match args
-			{
-				Ok(ref args) if args.eq(&["exit"]) => break,
-				args => args,
-			};
-
-			let results = (|args: Result<Vec<_>>| -> Result<Vec<String>>
-			{
-				let app = app()
-					.subcommands(subcommands.values().map(|command| command.usage()));
-
-				// hackily insert an empty string as argv[0]
-				let matches = app.get_matches_from_safe([String::new()].iter().chain(args?.iter()))?;
-				
-				let (command, args) = matches.subcommand();
-				// we only add subcommands from that hashmap so it MUST be present
-				let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
-				// we used .subcommand() so the command MUST be present
-				let args = args.unwrap_or_else(|| unreachable!());
-
-				let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
-
-				let results = command.call(&hero,&args)?.into_iter()
-					.map(|result| formatter.format(&result))
-					.collect();
-				Ok(results)
-			})(args.map_err(|err| err.into()));
-
-			match results
-			{
-				Ok(results) =>
+				if args.eq(&["exit"])
 				{
-					for result in results
+					break;
+				}
+			}
+
+			let result: Result<Vec<_>> = words
+				// build the clap App
+				.and_then(|words|
+				{
+					let app = app().subcommands(subcommands.values().map(|command| command.usage()));
+					// hackily insert an empty string as argv[0]
+					Ok(app.get_matches_from_safe([String::new()].iter().chain(words.iter()))?)
+				})
+				.and_then(|matches|
+				{
+					// get the corresponding subcommand
+					let (command, args) = matches.subcommand();
+					// we only add subcommands from that hashmap so it MUST be present
+					let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
+					// we used .subcommand() so the command MUST be present
+					let args = args.unwrap_or_else(|| unreachable!());
+
+					let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
+
+					let result = command.call(&hero,&args)?.into_iter()
+						.map(|result| formatter.format(&result))
+						.collect();
+
+					Ok(result)
+				});
+
+			match result
+			{
+				Ok(outputs) =>
+				{
+					for output in outputs
 					{
-						println!("{}",result)
+						println!("{}",output)
 					}
 				},
-				Err(error) => eprintln!("{}",error.description()),
+				Err(error) => eprintln!("{}", error.description()),
 			}
 		}
 
