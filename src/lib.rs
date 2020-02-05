@@ -27,7 +27,7 @@ pub use hero::{BaseValue, Hero};
 pub fn app() -> clap::App<'static,'static>
 {
 	clap::App::new("dsa-cli")
-		.version("0.2.1")
+		.version("0.2.2")
 		.author("benaryorg <binary@benary.org>")
 		.about("Calculates DSA Rolls")
 		.setting(clap::AppSettings::SubcommandRequiredElseHelp)
