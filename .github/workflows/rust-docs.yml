@@ -1,0 +1,22 @@
+name: docs
+
+on:
+  push:
+    branch:
+      - master
+
+jobs:
+  docs:
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: doc
+        run: cargo doc --release --verbose
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./target/doc
+
