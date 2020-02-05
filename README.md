@@ -1,5 +1,6 @@
 ![release](https://github.com/benaryorg/dsa-cli/workflows/release/badge.svg)
 ![ci](https://github.com/benaryorg/dsa-cli/workflows/ci/badge.svg)
+[![documentation](https://github.com/benaryorg/dsa-cli/workflows/docs/badge.svg)](https://benaryorg.github.io/dsa-cli/dsa/index.html)
 
 # What is this?
 
@@ -24,6 +25,11 @@ You can roll for something like that:
 ```bash
 cargo run -q -- --file helden-software-export.xml roll wettervorhersage
 ```
+
+## Documentation
+
+You can find the documentation for the current master on the [GitHub
+pages](https://benaryorg.github.io/dsa-cli/dsa/index.html) for this project.
 
 ## Automation
 
