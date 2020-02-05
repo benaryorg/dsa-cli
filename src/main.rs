@@ -30,6 +30,7 @@ fn main() -> Result<()>
 			.short("f")
 			.long("file")
 			.value_name("FILE")
+			.env("DSACLI_FILE")
 			.help("the XML file for your hero")
 			.takes_value(true)
 			.required(true)
