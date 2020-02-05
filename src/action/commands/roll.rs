@@ -12,8 +12,38 @@ impl Roll
 	}
 }
 
-// TODO: more docs and examples
 /// Rolls the dice for a certain skill of the *Hero*, supports modifiers.
+///
+/// # Examples
+///
+/// ```
+/// # use dsa::BaseValue::*;
+/// # use dsa::Hero;
+/// # use dsa::output::Output;
+/// # use dsa::commands::Roll;
+/// let mut roll = Roll::new_action();
+/// # let mut hero = Hero::default();
+/// hero.basevalues.extend(
+///     vec![
+///         (Dexterity,1),
+///         (Prestidigitation,2),
+///         (Strength,3),
+///     ]
+/// );
+/// hero.skills.insert("bogen".to_string(),(4,[Dexterity,Prestidigitation,Strength]));
+/// let matches = roll.usage().get_matches_from(&["roll","-m","-5","--mod","3","bogen"]);
+/// let output = roll.call(&hero,&matches).unwrap();
+/// assert_eq!(1,output.len());
+/// 
+/// if let Output::Roll { base, stat, mods, .. } = &output[0] {
+///     assert_eq!(4, *base);
+///     assert_eq!(&[1,2,3], stat);
+///     assert_eq!(-2, *mods);
+/// }
+/// # else {
+/// #     panic!("unexpected output");
+/// # }
+/// ```
 impl Action for Roll
 {
 	fn usage<'a,'b>(&'a self) -> App<'b,'b>
