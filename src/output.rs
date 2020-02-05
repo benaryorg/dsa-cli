@@ -84,7 +84,7 @@ impl Formatter for formats::HumanReadable
 				{
 					writeln!(output,"modifier larger than base, reducing stats by {}", stat_mod).unwrap();
 				}
-				for ((stat,die),check) in stat.iter().zip(dice.iter()).zip(checks.iter())
+				for ((stat,die),check) in stat.iter().zip(dice).zip(checks)
 				{
 					let stat = stat-stat_mod;
 					let sym = match die.cmp(&stat)

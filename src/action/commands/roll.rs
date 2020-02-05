@@ -117,7 +117,7 @@ impl Action for Roll
 				let num_1 = rolls.iter().filter(|i| **i == 1).count();
 				let result = 0.max(base - mods) + values.iter()
 					.map(|stat| stat + 0.min(base - mods))
-					.zip(rolls.iter())
+					.zip(&rolls)
 					.map(|(stat,die)| (stat-die).min(0))
 					.sum::<isize>();
 

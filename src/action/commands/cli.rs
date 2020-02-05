@@ -62,7 +62,7 @@ impl Action for Cli
 				{
 					let app = app().subcommands(subcommands.values().map(|command| command.usage()));
 					// hackily insert an empty string as argv[0]
-					Ok(app.get_matches_from_safe([String::new()].iter().chain(words.iter()))?)
+					Ok(app.get_matches_from_safe(std::iter::once(String::new()).chain(words))?)
 				})
 				.and_then(|matches|
 				{
