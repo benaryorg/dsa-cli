@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["BellStyle","Beep or flash or nothing"],["ColorMode","Colorization mode"],["CompletionType",""],["EditMode","Style of editing / Standard keymaps"],["HistoryDuplicates",""],["OutputStreamType","Should the editor use stdout or stderr"]],"struct":[["Builder","Configuration builder"],["Config","User preferences"]],"trait":[["Configurer",""]]});

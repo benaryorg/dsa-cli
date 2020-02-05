@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `xmlparser` crate."><meta name="keywords" content="rust, rustlang, rust-lang, xmlparser"><title>xmlparser - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../xmlparser/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate xmlparser</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all xmlparser's items</p></a><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'xmlparser', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/xmlparser/lib.rs.html#1-982' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>xmlparser</a></span></h1><div class='docblock'><p><em>xmlparser</em> is a low-level, pull-based, zero-allocation
+<a href="https://www.w3.org/TR/xml/">XML 1.0</a> parser.</p>
+<h2 id="example" class="section-header"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">for</span> <span class="ident">token</span> <span class="kw">in</span> <span class="ident">xmlparser</span>::<span class="ident">Tokenizer</span>::<span class="ident">from</span>(<span class="string">&quot;&lt;tagname name=&#39;value&#39;/&gt;&quot;</span>) {
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">token</span>);
+}</pre></div>
+<h2 id="why-a-new-library" class="section-header"><a href="#why-a-new-library">Why a new library</a></h2>
+<p>This library is basically a low-level XML tokenizer that preserves a position of the tokens
+and does not intend to be used directly.
+If you are looking for a more high-level solution - checkout
+<a href="https://github.com/RazrFalcon/roxmltree">roxmltree</a>.</p>
+<h2 id="benefits" class="section-header"><a href="#benefits">Benefits</a></h2>
+<ul>
+<li>All tokens contain <code>StrSpan</code> objects which contain position of the substring
+in the original document.</li>
+<li>Good error processing. All error types contain position (line:column) where it occurred.</li>
+<li>No heap allocations.</li>
+<li>No dependencies.</li>
+<li>Tiny. ~1400 LOC and ~30KiB in the release build according to the <code>cargo-bloat</code>.</li>
+<li>Supports <code>no_std</code> builds. To use without the standard library, disable the default features.</li>
+</ul>
+<h2 id="limitations" class="section-header"><a href="#limitations">Limitations</a></h2>
+<ul>
+<li>Currently, only ENTITY objects are parsed from the DOCTYPE. Other ignored.</li>
+<li>No tree structure validation. So an XML like <code>&lt;root&gt;&lt;child&gt;&lt;/root&gt;&lt;/child&gt;</code>
+or a string without root element
+will be parsed without errors. You should check for this manually.
+On the other hand <code>&lt;a/&gt;&lt;a/&gt;</code> will lead to an error.</li>
+<li>Duplicated attributes is not an error. So an XML like <code>&lt;item a=&quot;v1&quot; a=&quot;v2&quot;/&gt;</code>
+will be parsed without errors. You should check for this manually.</li>
+<li>UTF-8 only.</li>
+</ul>
+<h2 id="safety" class="section-header"><a href="#safety">Safety</a></h2>
+<ul>
+<li>The library must not panic. Any panic considered as a critical bug
+and should be reported.</li>
+<li>The library forbids the unsafe code.</li>
+</ul>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.StrSpan.html" title='xmlparser::StrSpan struct'>StrSpan</a></td><td class='docblock-short'><p>A string slice.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Stream.html" title='xmlparser::Stream struct'>Stream</a></td><td class='docblock-short'><p>A streaming XML parsing interface.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.TextPos.html" title='xmlparser::TextPos struct'>TextPos</a></td><td class='docblock-short'><p>Position in text.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Tokenizer.html" title='xmlparser::Tokenizer struct'>Tokenizer</a></td><td class='docblock-short'><p>Tokenizer for the XML structure.</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.ElementEnd.html" title='xmlparser::ElementEnd enum'>ElementEnd</a></td><td class='docblock-short'><p><code>ElementEnd</code> token.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.EntityDefinition.html" title='xmlparser::EntityDefinition enum'>EntityDefinition</a></td><td class='docblock-short'><p>Representation of the <a href="https://www.w3.org/TR/xml/#NT-EntityDef">EntityDef</a> value.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.Error.html" title='xmlparser::Error enum'>Error</a></td><td class='docblock-short'><p>An XML parser errors.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.ExternalId.html" title='xmlparser::ExternalId enum'>ExternalId</a></td><td class='docblock-short'><p>Representation of the <a href="https://www.w3.org/TR/xml/#NT-ExternalID">ExternalID</a> value.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.Reference.html" title='xmlparser::Reference enum'>Reference</a></td><td class='docblock-short'><p>Representation of the <a href="https://www.w3.org/TR/xml/#NT-Reference">Reference</a> value.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.StreamError.html" title='xmlparser::StreamError enum'>StreamError</a></td><td class='docblock-short'><p>A stream parser errors.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.Token.html" title='xmlparser::Token enum'>Token</a></td><td class='docblock-short'><p>An XML token.</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.XmlByteExt.html" title='xmlparser::XmlByteExt trait'>XmlByteExt</a></td><td class='docblock-short'><p>Extension methods for XML-subset only operations.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.XmlCharExt.html" title='xmlparser::XmlCharExt trait'>XmlCharExt</a></td><td class='docblock-short'><p>Extension methods for XML-subset only operations.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "xmlparser";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Cli",""],["Dump","Simply dumps the hero, ready to be displayed by the used Formatter."],["Roll",""],["Tracker","A generic tracker for a property during a cli session."]]});
