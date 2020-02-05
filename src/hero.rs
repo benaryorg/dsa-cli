@@ -77,10 +77,10 @@ impl std::str::FromStr for Hero
 
 		use BaseValue::*;
 
-		let skills = held.children()
-			.find(|elem| elem.has_tag_name("talentliste"))
-			.ok_or("hero does not have skills")?;
-		let skills: HashMap<_,_> = skills.children()
+		let skills: HashMap<_,_> = held.children()
+			.filter(|elem| elem.has_tag_name("talentliste") || elem.has_tag_name("zauberliste"))
+			.map(|elem| elem.children())
+			.flatten()
 			.map(|elem| -> Result<(String,(isize,[BaseValue;3]))>
 				{
 					let name = elem.attribute("name").unwrap_or("").to_lowercase();
