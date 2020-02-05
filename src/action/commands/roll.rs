@@ -26,6 +26,7 @@ impl Action for Roll
 				.long("modifier")
 				.alias("mod")
 				.help("modification as positive (bad) or negative (good) integer")
+				.allow_hyphen_values(true)
 				.takes_value(true)
 				.multiple(true)
 				.number_of_values(1)
