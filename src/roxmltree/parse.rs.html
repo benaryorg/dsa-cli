@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/roxmltree-0.9.0/src/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../roxmltree/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/roxmltree-0.9.1/src/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../roxmltree/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1056,6 +1056,74 @@
 <span id="1056">1056</span>
 <span id="1057">1057</span>
 <span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::{<span class="ident">Cow</span>, <span class="ident">Borrow</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
@@ -1085,9 +1153,6 @@
     <span class="ident">Range</span>,
     <span class="ident">Uri</span>,
 };
-
-<span class="comment">// Note: update Error::EntityReferenceLoop documentation too.</span>
-<span class="kw">const</span> <span class="ident">ENTITY_DEPTH</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">10</span>;
 
 
 <span class="doccomment">/// A list of all possible errors.</span>
@@ -1139,7 +1204,7 @@
 
     <span class="doccomment">/// A possible entity reference loop.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The current depth limit is 10.</span>
+    <span class="doccomment">/// The current depth limit is 10. The max number of references per reference is 255.</span>
     <span class="ident">EntityReferenceLoop</span>(<span class="ident">TextPos</span>),
 
     <span class="doccomment">/// Attribute value cannot have a `&lt;` character.</span>
@@ -1344,6 +1409,84 @@
     }
 }
 
+
+<span class="doccomment">/// An entity loop detector.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Limits:</span>
+<span class="doccomment">/// - Entities depth is 10.</span>
+<span class="doccomment">/// - Maximum number of entity references per entity reference is 255.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Basically, if a text or an attribute has an entity reference and this reference</span>
+<span class="doccomment">/// has more than 10 nested references - this is an error.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is useful for simple loops like:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// &lt;!ENTITY a &#39;&amp;b;&#39;&gt;</span>
+<span class="doccomment">/// &lt;!ENTITY b &#39;&amp;a;&#39;&gt;</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// And, if a text or an attribute has an entity reference and it references more</span>
+<span class="doccomment">/// than 255 references - this is an error.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is useful for cases like billion laughs attack, where depth can be pretty small,</span>
+<span class="doccomment">/// but the number of references is exponentially increasing:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// &lt;!ENTITY lol &quot;lol&quot;&gt;</span>
+<span class="doccomment">/// &lt;!ENTITY lol1 &quot;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&quot;&gt;</span>
+<span class="doccomment">/// &lt;!ENTITY lol2 &quot;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&quot;&gt;</span>
+<span class="doccomment">/// &lt;!ENTITY lol3 &quot;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&quot;&gt;</span>
+<span class="doccomment">/// &lt;!ENTITY lol4 &quot;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&quot;&gt;</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
+<span class="kw">struct</span> <span class="ident">LoopDetector</span> {
+    <span class="doccomment">/// References depth.</span>
+    <span class="ident">depth</span>: <span class="ident">u8</span>,
+    <span class="doccomment">/// Number of references resolved by the root reference.</span>
+    <span class="ident">references</span>: <span class="ident">u8</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">LoopDetector</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">inc_depth</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">Stream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">&lt;</span> <span class="number">10</span> {
+            <span class="self">self</span>.<span class="ident">depth</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">EntityReferenceLoop</span>(<span class="ident">s</span>.<span class="ident">gen_text_pos</span>()))
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">dec_depth</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="self">self</span>.<span class="ident">depth</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+        }
+
+        <span class="comment">// Reset references count after reaching zero depth.</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="self">self</span>.<span class="ident">references</span> <span class="op">=</span> <span class="number">0</span>;
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">inc_references</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">Stream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="comment">// Allow infinite amount of references at zero depth.</span>
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">references</span> <span class="op">=</span><span class="op">=</span> <span class="ident">std</span>::<span class="ident">u8</span>::<span class="ident">MAX</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">EntityReferenceLoop</span>(<span class="ident">s</span>.<span class="ident">gen_text_pos</span>()));
+            }
+
+            <span class="self">self</span>.<span class="ident">references</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="prelude-val">Ok</span>(())
+        }
+    }
+}
+
+
 <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Document</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pd</span> <span class="op">=</span> <span class="ident">ParserData</span> {
         <span class="ident">attrs_start_idx</span>: <span class="number">0</span>,
@@ -1381,7 +1524,7 @@
     <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">xmlparser</span>::<span class="ident">Tokenizer</span>::<span class="ident">from</span>(<span class="ident">text</span>);
     <span class="kw">let</span> <span class="ident">parent_id</span> <span class="op">=</span> <span class="ident">doc</span>.<span class="ident">root</span>().<span class="ident">id</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tag_name</span> <span class="op">=</span> <span class="ident">TagNameSpan</span>::<span class="ident">new_null</span>();
-    <span class="ident">process_tokens</span>(<span class="ident">parser</span>, <span class="number">0</span>, <span class="ident">parent_id</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tag_name</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">doc</span>)<span class="question-mark">?</span>;
+    <span class="ident">process_tokens</span>(<span class="ident">parser</span>, <span class="ident">parent_id</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>::<span class="ident">default</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tag_name</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">doc</span>)<span class="question-mark">?</span>;
 
     <span class="kw">if</span> <span class="op">!</span><span class="ident">doc</span>.<span class="ident">root</span>().<span class="ident">children</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">n</span>.<span class="ident">is_element</span>()) {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">NoRootNode</span>);
@@ -1396,8 +1539,8 @@
 
 <span class="kw">fn</span> <span class="ident">process_tokens</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>(
     <span class="ident">parser</span>: <span class="ident">xmlparser</span>::<span class="ident">Tokenizer</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
-    <span class="ident">entity_depth</span>: <span class="ident">u8</span>,
     <span class="kw-2">mut</span> <span class="ident">parent_id</span>: <span class="ident">NodeId</span>,
+    <span class="ident">loop_detector</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>,
     <span class="ident">tag_name</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TagNameSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">pd</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserData</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">doc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Document</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
@@ -1416,7 +1559,7 @@
                 <span class="ident">doc</span>.<span class="ident">append</span>(<span class="ident">parent_id</span>, <span class="ident">NodeKind</span>::<span class="ident">Comment</span>(<span class="ident">text</span>.<span class="ident">as_str</span>()), <span class="ident">span</span>.<span class="ident">range</span>());
             }
             <span class="ident">xmlparser</span>::<span class="ident">Token</span>::<span class="ident">Text</span> { <span class="ident">text</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">process_text</span>(<span class="ident">text</span>, <span class="ident">parent_id</span>, <span class="ident">entity_depth</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
+                <span class="ident">process_text</span>(<span class="ident">text</span>, <span class="ident">parent_id</span>, <span class="ident">loop_detector</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
             }
             <span class="ident">xmlparser</span>::<span class="ident">Token</span>::<span class="ident">Cdata</span> { <span class="ident">text</span>, <span class="ident">span</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">cow_str</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">text</span>.<span class="ident">as_str</span>());
@@ -1432,7 +1575,7 @@
                 <span class="kw-2">*</span><span class="ident">tag_name</span> <span class="op">=</span> <span class="ident">TagNameSpan</span>::<span class="ident">new</span>(<span class="ident">prefix</span>, <span class="ident">local</span>, <span class="ident">span</span>);
             }
             <span class="ident">xmlparser</span>::<span class="ident">Token</span>::<span class="ident">Attribute</span> { <span class="ident">prefix</span>, <span class="ident">local</span>, <span class="ident">value</span>, <span class="ident">span</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">process_attribute</span>(<span class="ident">entity_depth</span>, <span class="ident">prefix</span>, <span class="ident">local</span>, <span class="ident">value</span>, <span class="ident">span</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
+                <span class="ident">process_attribute</span>(<span class="ident">prefix</span>, <span class="ident">local</span>, <span class="ident">value</span>, <span class="ident">span</span>, <span class="ident">loop_detector</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
             }
             <span class="ident">xmlparser</span>::<span class="ident">Token</span>::<span class="ident">ElementEnd</span> { <span class="ident">end</span>, <span class="ident">span</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">process_element</span>(<span class="kw-2">*</span><span class="ident">tag_name</span>, <span class="ident">end</span>, <span class="ident">span</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">parent_id</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
@@ -1460,17 +1603,17 @@
 }
 
 <span class="kw">fn</span> <span class="ident">process_attribute</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>(
-    <span class="ident">entity_depth</span>: <span class="ident">u8</span>,
     <span class="ident">prefix</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">local</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">value</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">token_span</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
+    <span class="ident">loop_detector</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>,
     <span class="ident">pd</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserData</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">doc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Document</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">token_span</span>.<span class="ident">range</span>();
     <span class="kw">let</span> <span class="ident">value_range</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">range</span>();
-    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">normalize_attribute</span>(<span class="ident">doc</span>.<span class="ident">text</span>, <span class="ident">entity_depth</span>, <span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="ident">pd</span>.<span class="ident">entities</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pd</span>.<span class="ident">buffer</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">normalize_attribute</span>(<span class="ident">doc</span>.<span class="ident">text</span>, <span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="ident">pd</span>.<span class="ident">entities</span>, <span class="ident">loop_detector</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pd</span>.<span class="ident">buffer</span>)<span class="question-mark">?</span>;
 
     <span class="kw">if</span> <span class="ident">prefix</span>.<span class="ident">as_str</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;xmlns&quot;</span> {
         <span class="comment">// The xmlns namespace MUST NOT be declared as the default namespace.</span>
@@ -1696,7 +1839,7 @@
 <span class="kw">fn</span> <span class="ident">process_text</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>(
     <span class="ident">text</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">parent_id</span>: <span class="ident">NodeId</span>,
-    <span class="ident">entity_depth</span>: <span class="ident">u8</span>,
+    <span class="ident">loop_detector</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>,
     <span class="ident">pd</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserData</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">doc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Document</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
@@ -1716,7 +1859,6 @@
 
     <span class="ident">pd</span>.<span class="ident">buffer</span>.<span class="ident">clear</span>();
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">entity_depth</span> <span class="op">=</span> <span class="ident">entity_depth</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_as_is</span> <span class="op">=</span> <span class="bool-val">false</span>; <span class="comment">// TODO: explain</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Stream</span>::<span class="ident">from_substr</span>(<span class="ident">doc</span>.<span class="ident">text</span>, <span class="ident">text</span>.<span class="ident">range</span>());
     <span class="kw">while</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">at_end</span>() {
@@ -1731,11 +1873,11 @@
             }
             <span class="ident">NextChunk</span>::<span class="ident">Char</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">CharToBytes</span>::<span class="ident">new</span>(<span class="ident">c</span>) {
-                    <span class="kw">if</span> <span class="ident">entity_depth</span> <span class="op">&gt;</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="ident">loop_detector</span>.<span class="ident">depth</span> <span class="op">&gt;</span> <span class="number">0</span> {
                         <span class="ident">pd</span>.<span class="ident">buffer</span>.<span class="ident">push_from_text</span>(<span class="ident">b</span>, <span class="ident">s</span>.<span class="ident">at_end</span>());
                     } <span class="kw">else</span> {
                         <span class="comment">// Characters not from entity should be added as is.</span>
-                        <span class="comment">// Not sure why... At least `lxml` produces the same results.</span>
+                        <span class="comment">// Not sure why... At least `lxml` produces the same result.</span>
                         <span class="ident">pd</span>.<span class="ident">buffer</span>.<span class="ident">push_raw</span>(<span class="ident">b</span>);
                         <span class="ident">is_as_is</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     }
@@ -1744,20 +1886,19 @@
             <span class="ident">NextChunk</span>::<span class="ident">Text</span>(<span class="ident">fragment</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">is_as_is</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-                <span class="kw">if</span> <span class="ident">entity_depth</span> <span class="op">&gt;</span> <span class="ident">ENTITY_DEPTH</span> {
-                    <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">gen_text_pos</span>();
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">EntityReferenceLoop</span>(<span class="ident">pos</span>));
-                }
-
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">pd</span>.<span class="ident">buffer</span>.<span class="ident">is_empty</span>() {
                     <span class="ident">_append_text</span>(<span class="ident">parent_id</span>, <span class="ident">text</span>.<span class="ident">range</span>(), <span class="ident">pd</span>, <span class="ident">doc</span>);
                 }
 
+                <span class="ident">loop_detector</span>.<span class="ident">inc_references</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
+                <span class="ident">loop_detector</span>.<span class="ident">inc_depth</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
+
                 <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">xmlparser</span>::<span class="ident">Tokenizer</span>::<span class="ident">from_fragment</span>(<span class="ident">doc</span>.<span class="ident">text</span>, <span class="ident">fragment</span>.<span class="ident">range</span>());
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tag_name</span> <span class="op">=</span> <span class="ident">TagNameSpan</span>::<span class="ident">new_null</span>();
-                <span class="ident">entity_depth</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>; <span class="comment">// TODO: explain</span>
-                <span class="ident">process_tokens</span>(<span class="ident">parser</span>, <span class="ident">entity_depth</span>, <span class="ident">parent_id</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tag_name</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
+                <span class="ident">process_tokens</span>(<span class="ident">parser</span>, <span class="ident">parent_id</span>, <span class="ident">loop_detector</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tag_name</span>, <span class="ident">pd</span>, <span class="ident">doc</span>)<span class="question-mark">?</span>;
                 <span class="ident">pd</span>.<span class="ident">buffer</span>.<span class="ident">clear</span>();
+
+                <span class="ident">loop_detector</span>.<span class="ident">dec_depth</span>();
             }
         }
     }
@@ -1843,14 +1984,14 @@
 <span class="comment">// https://www.w3.org/TR/REC-xml/#AVNormalize</span>
 <span class="kw">fn</span> <span class="ident">normalize_attribute</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;input</span> <span class="ident">str</span>,
-    <span class="ident">entity_depth</span>: <span class="ident">u8</span>,
     <span class="ident">text</span>: <span class="ident">StrSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>,
     <span class="ident">entities</span>: <span class="kw-2">&amp;</span>[<span class="ident">Entity</span>],
+    <span class="ident">loop_detector</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>,
     <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TextBuffer</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span>, <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">is_normalization_required</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>) {
         <span class="ident">buffer</span>.<span class="ident">clear</span>();
-        <span class="ident">_normalize_attribute</span>(<span class="ident">input</span>, <span class="ident">text</span>, <span class="ident">entities</span>, <span class="ident">entity_depth</span>, <span class="ident">buffer</span>)<span class="question-mark">?</span>;
+        <span class="ident">_normalize_attribute</span>(<span class="ident">input</span>, <span class="ident">text</span>, <span class="ident">entities</span>, <span class="ident">loop_detector</span>, <span class="ident">buffer</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">buffer</span>.<span class="ident">to_str</span>().<span class="ident">to_owned</span>()))
     } <span class="kw">else</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">text</span>.<span class="ident">as_str</span>()))
@@ -1879,11 +2020,9 @@
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="ident">text</span>: <span class="ident">StrSpan</span>,
     <span class="ident">entities</span>: <span class="kw-2">&amp;</span>[<span class="ident">Entity</span>],
-    <span class="ident">entity_depth</span>: <span class="ident">u8</span>,
+    <span class="ident">loop_detector</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LoopDetector</span>,
     <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TextBuffer</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">entity_depth</span> <span class="op">=</span> <span class="ident">entity_depth</span>;
-
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Stream</span>::<span class="ident">from_substr</span>(<span class="ident">input</span>, <span class="ident">text</span>.<span class="ident">range</span>());
     <span class="kw">while</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">at_end</span>() {
         <span class="comment">// Safe, because we already checked that the stream is not at the end.</span>
@@ -1900,7 +2039,7 @@
         <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">try_consume_reference</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">Reference</span>::<span class="ident">Char</span>(<span class="ident">ch</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">CharToBytes</span>::<span class="ident">new</span>(<span class="ident">ch</span>) {
-                    <span class="kw">if</span> <span class="ident">entity_depth</span> <span class="op">&gt;</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="ident">loop_detector</span>.<span class="ident">depth</span> <span class="op">&gt;</span> <span class="number">0</span> {
                         <span class="comment">// Escaped `&lt;` inside an ENTITY is an error.</span>
                         <span class="comment">// Escaped `&lt;` outside an ENTITY is ok.</span>
                         <span class="kw">if</span> <span class="ident">b</span> <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;&lt;&#39;</span> {
@@ -1916,15 +2055,12 @@
                 }
             }
             <span class="prelude-val">Some</span>(<span class="ident">Reference</span>::<span class="ident">Entity</span>(<span class="ident">name</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">entity_depth</span> <span class="op">&gt;</span> <span class="ident">ENTITY_DEPTH</span> {
-                    <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">gen_text_pos</span>();
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">EntityReferenceLoop</span>(<span class="ident">pos</span>));
-                }
-
                 <span class="kw">match</span> <span class="ident">entities</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">name</span>) {
                     <span class="prelude-val">Some</span>(<span class="ident">entity</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                        <span class="ident">entity_depth</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                        <span class="ident">_normalize_attribute</span>(<span class="ident">input</span>, <span class="ident">entity</span>.<span class="ident">value</span>, <span class="ident">entities</span>, <span class="ident">entity_depth</span>, <span class="ident">buffer</span>)<span class="question-mark">?</span>;
+                        <span class="ident">loop_detector</span>.<span class="ident">inc_references</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
+                        <span class="ident">loop_detector</span>.<span class="ident">inc_depth</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
+                        <span class="ident">_normalize_attribute</span>(<span class="ident">input</span>, <span class="ident">entity</span>.<span class="ident">value</span>, <span class="ident">entities</span>, <span class="ident">loop_detector</span>, <span class="ident">buffer</span>)<span class="question-mark">?</span>;
+                        <span class="ident">loop_detector</span>.<span class="ident">dec_depth</span>();
                     }
                     <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">gen_text_pos_from</span>(<span class="ident">start</span>);

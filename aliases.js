@@ -5,7 +5,6 @@ ALIASES["atty"] = {};
 ALIASES["backtrace"] = {};
 ALIASES["backtrace_sys"] = {};
 ALIASES["bitflags"] = {};
-ALIASES["c2_chacha"] = {};
 ALIASES["cfg_if"] = {};
 ALIASES["clap"] = {};
 ALIASES["dirs"] = {};

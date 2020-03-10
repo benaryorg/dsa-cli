@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/action/commands/roll.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>roll.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../dsa/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/action/commands/roll.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>roll.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../dsa/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -157,20 +157,20 @@
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// # use dsa::BaseValue::*;</span>
+<span class="doccomment">/// # use dsa::Quality::*;</span>
 <span class="doccomment">/// # use dsa::Hero;</span>
 <span class="doccomment">/// # use dsa::output::Output;</span>
 <span class="doccomment">/// # use dsa::commands::Roll;</span>
 <span class="doccomment">/// let mut roll = Roll::new_action();</span>
 <span class="doccomment">/// # let mut hero = Hero::default();</span>
-<span class="doccomment">/// hero.basevalues.extend(</span>
+<span class="doccomment">/// hero.qualities.extend(</span>
 <span class="doccomment">///     vec![</span>
-<span class="doccomment">///         (Dexterity,1),</span>
-<span class="doccomment">///         (Prestidigitation,2),</span>
+<span class="doccomment">///         (Agility,1),</span>
+<span class="doccomment">///         (Dexterity,2),</span>
 <span class="doccomment">///         (Strength,3),</span>
 <span class="doccomment">///     ]</span>
 <span class="doccomment">/// );</span>
-<span class="doccomment">/// hero.skills.insert(&quot;bogen&quot;.to_string(),(4,[Dexterity,Prestidigitation,Strength]));</span>
+<span class="doccomment">/// hero.skills.insert(&quot;bogen&quot;.to_string(),(4,[Agility,Dexterity,Strength]));</span>
 <span class="doccomment">/// let matches = roll.usage().get_matches_from(&amp;[&quot;roll&quot;,&quot;-m&quot;,&quot;-5&quot;,&quot;--mod&quot;,&quot;3&quot;,&quot;bogen&quot;]);</span>
 <span class="doccomment">/// let output = roll.call(&amp;hero,&amp;matches).unwrap();</span>
 <span class="doccomment">/// assert_eq!(1,output.len());</span>
@@ -236,12 +236,12 @@
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">values_enum</span>.<span class="ident">iter</span>()
 						.<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>
 						{
-							<span class="prelude-val">Ok</span>(<span class="kw-2">*</span><span class="ident">hero</span>.<span class="ident">basevalues</span>.<span class="ident">get</span>(<span class="ident">value</span>).<span class="ident">ok_or</span>(<span class="string">&quot;cannot roll unknown basevalue&quot;</span>)<span class="question-mark">?</span>)
+							<span class="prelude-val">Ok</span>(<span class="kw-2">*</span><span class="ident">hero</span>.<span class="ident">qualities</span>.<span class="ident">get</span>(<span class="ident">value</span>).<span class="ident">ok_or</span>(<span class="string">&quot;cannot roll unknown quality&quot;</span>)<span class="question-mark">?</span>)
 						});
 					[
-						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;basevalue retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
-						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;basevalue retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
-						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;basevalue retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
+						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;quality retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
+						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;quality retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
+						<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="string">&quot;quality retrieval is broken&quot;</span>)<span class="question-mark">?</span><span class="question-mark">?</span>,
 					]
 				};
 				<span class="kw">let</span> <span class="ident">rolls</span> <span class="op">=</span>
