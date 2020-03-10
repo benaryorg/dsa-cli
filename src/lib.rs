@@ -13,7 +13,7 @@ mod action;
 mod hero;
 
 pub use action::{commands, Action};
-pub use hero::{BaseValue, Hero};
+pub use hero::{Quality, Hero};
 
 /// Helper to create the basic app with options common between the cli-subcommand and the main app.
 ///

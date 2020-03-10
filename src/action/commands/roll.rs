@@ -17,20 +17,20 @@ impl Roll
 /// # Examples
 ///
 /// ```
-/// # use dsa::BaseValue::*;
+/// # use dsa::Quality::*;
 /// # use dsa::Hero;
 /// # use dsa::output::Output;
 /// # use dsa::commands::Roll;
 /// let mut roll = Roll::new_action();
 /// # let mut hero = Hero::default();
-/// hero.basevalues.extend(
+/// hero.qualities.extend(
 ///     vec![
-///         (Dexterity,1),
-///         (Prestidigitation,2),
+///         (Agility,1),
+///         (Dexterity,2),
 ///         (Strength,3),
 ///     ]
 /// );
-/// hero.skills.insert("bogen".to_string(),(4,[Dexterity,Prestidigitation,Strength]));
+/// hero.skills.insert("bogen".to_string(),(4,[Agility,Dexterity,Strength]));
 /// let matches = roll.usage().get_matches_from(&["roll","-m","-5","--mod","3","bogen"]);
 /// let output = roll.call(&hero,&matches).unwrap();
 /// assert_eq!(1,output.len());
@@ -96,12 +96,12 @@ impl Action for Roll
 					let mut iter = values_enum.iter()
 						.map(|value| -> Result<isize>
 						{
-							Ok(*hero.basevalues.get(value).ok_or("cannot roll unknown basevalue")?)
+							Ok(*hero.qualities.get(value).ok_or("cannot roll unknown quality")?)
 						});
 					[
-						iter.next().ok_or("basevalue retrieval is broken")??,
-						iter.next().ok_or("basevalue retrieval is broken")??,
-						iter.next().ok_or("basevalue retrieval is broken")??,
+						iter.next().ok_or("quality retrieval is broken")??,
+						iter.next().ok_or("quality retrieval is broken")??,
+						iter.next().ok_or("quality retrieval is broken")??,
 					]
 				};
 				let rolls =

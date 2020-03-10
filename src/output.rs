@@ -93,7 +93,7 @@ impl Formatter for formats::HumanReadable
 						Ordering::Equal => '=',
 						Ordering::Greater => '>',
 					};
-					writeln!(output,"{:16} | {:2} {} {:2} = {:3} | {:3} => {:3}",
+					writeln!(output,"{:13} | {:2} {} {:2} = {:3} | {:3} => {:3}",
 						format!("{:?}", check),
 						die, sym, stat, 0.max(die - stat),
 						base, base - 0.max(die - stat),
@@ -126,7 +126,7 @@ impl Formatter for formats::Json
 				"health" => hero.health,
 				"stamina" => hero.stamina,
 				"astral" => hero.astral,
-				"basevalues" => hero.basevalues.iter()
+				"qualities" => hero.qualities.iter()
 					.map(|(key,value)| (format!("{:?}",key),*value))
 					.collect::<HashMap<_,_>>(),
 				"skills" => hero.skills.iter()
@@ -171,12 +171,12 @@ pub enum Output
 		critical: bool,
 		/// How many points of the skill did remain.
 		remainder: isize,
-		/// The basevalue to be rolled against.
+		/// The qualitiy to be rolled against.
 		base: isize,
 		/// The sum of all modifiers placed on the roll.
 		mods: isize,
-		/// Which *BaseValue*s were rolled against.
-		checks: [BaseValue;3],
+		/// Which qualities were rolled against.
+		checks: [Quality;3],
 		/// The corresponding stat values.
 		stat: [isize;3],
 		/// The raw dice rolls.
