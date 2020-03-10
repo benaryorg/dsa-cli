@@ -1,0 +1,61 @@
+name: weekly-update-check
+
+on:
+  schedule:
+    - cron: "0 8 * * Fri"
+
+# Currently not supported, use later I guess
+#var:
+#  - &build-steps
+#    steps:
+#      - uses: actions/checkout@v1
+#
+#      - name: update
+#        run: cargo update --verbose
+#      - name: build
+#        run: cargo build --verbose
+#      - name: test
+#        run: cargo test --verbose
+#      - name: clippy
+#        run: cargo clippy --verbose -- --deny warnings
+
+jobs:
+  update:
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: update
+        run: cargo update --locked --verbose
+  build-with-updates-ubuntu:
+    #<<: *build-steps
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: update
+        run: cargo update --verbose
+      - name: build
+        run: cargo build --verbose
+      - name: test
+        run: cargo test --verbose
+      - name: clippy
+        run: cargo clippy --verbose -- --deny warnings
+  build-with-updates-windows:
+    #<<: *build-steps
+    runs-on:
+      - windows-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: update
+        run: cargo update --verbose
+      - name: build
+        run: cargo build --verbose
+      - name: test
+        run: cargo test --verbose
+      - name: clippy
+        run: cargo clippy --verbose -- --deny warnings
+
