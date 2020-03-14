@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/json-0.12.1/src/number.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>number.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../json/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/json-0.12.2/src/number.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>number.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../json/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -549,9 +549,39 @@
 <span id="549">549</span>
 <span id="550">550</span>
 <span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{ <span class="ident">ops</span>, <span class="ident">fmt</span>, <span class="ident">f32</span>, <span class="ident">f64</span> };
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">FpCategory</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">Infallible</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::{<span class="ident">FpCategory</span>, <span class="ident">TryFromIntError</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">grisu2</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">print_dec</span>;
 
@@ -935,6 +965,23 @@
     }
 }
 
+<span class="doccomment">/// Error type generated when trying to convert a `Number` into an</span>
+<span class="doccomment">/// integer of inadequate size.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NumberOutOfScope</span>;
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Infallible</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NumberOutOfScope</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">Infallible</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">NumberOutOfScope</span> {
+        <span class="ident">NumberOutOfScope</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">TryFromIntError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NumberOutOfScope</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">TryFromIntError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">NumberOutOfScope</span> {
+        <span class="ident">NumberOutOfScope</span>
+    }
+}
+
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_unsigned</span> {
     ($( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span> ),<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Number</span> {
@@ -948,10 +995,23 @@
             }
         }
 
+        <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">Number</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">NumberOutOfScope</span>;
+
+            <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">num</span>: <span class="ident">Number</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> (<span class="ident">positive</span>, <span class="ident">mantissa</span>, <span class="ident">exponent</span>) <span class="op">=</span> <span class="ident">num</span>.<span class="ident">as_parts</span>();
+
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">positive</span> <span class="op">|</span><span class="op">|</span> <span class="ident">exponent</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">NumberOutOfScope</span>);
+                }
+
+                <span class="ident">TryFrom</span>::<span class="ident">try_from</span>(<span class="ident">mantissa</span>).<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+            }
+        }
+
         <span class="macro">impl_integer</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
     )<span class="kw-2">*</span>)
 }
-
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_signed</span> {
     ($( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span> ),<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(
@@ -973,34 +1033,32 @@
             }
         }
 
+        <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">Number</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">NumberOutOfScope</span>;
+
+            <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">num</span>: <span class="ident">Number</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> (<span class="ident">positive</span>, <span class="ident">mantissa</span>, <span class="ident">exponent</span>) <span class="op">=</span> <span class="ident">num</span>.<span class="ident">as_parts</span>();
+
+                <span class="kw">if</span> <span class="ident">exponent</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">NumberOutOfScope</span>);
+                }
+
+                <span class="kw">let</span> <span class="ident">mantissa</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">positive</span> {
+                    <span class="ident">mantissa</span> <span class="kw">as</span> <span class="ident">i64</span>
+                } <span class="kw">else</span> {
+                    <span class="op">-</span>(<span class="ident">mantissa</span> <span class="kw">as</span> <span class="ident">i64</span>)
+                };
+
+                <span class="ident">TryFrom</span>::<span class="ident">try_from</span>(<span class="ident">mantissa</span>).<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+            }
+        }
+
         <span class="macro">impl_integer</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
     )<span class="kw-2">*</span>)
 }
 
-
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_integer</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Number</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">num</span>: <span class="ident">Number</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-                <span class="kw">let</span> (<span class="ident">positive</span>, <span class="ident">mantissa</span>, <span class="ident">exponent</span>) <span class="op">=</span> <span class="ident">num</span>.<span class="ident">as_parts</span>();
-
-                <span class="kw">if</span> <span class="ident">exponent</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="ident">positive</span> {
-                        <span class="ident">mantissa</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
-                    } <span class="kw">else</span> {
-                        <span class="op">-</span>(<span class="ident">mantissa</span> <span class="kw">as</span> <span class="ident">i64</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
-                    }
-                } <span class="kw">else</span> {
-                    <span class="comment">// This may overflow, which is fine</span>
-                    <span class="kw">if</span> <span class="ident">positive</span> {
-                        (<span class="ident">mantissa</span> <span class="op">*</span> <span class="number">10u64</span>.<span class="ident">pow</span>(<span class="ident">exponent</span> <span class="kw">as</span> <span class="ident">u32</span>)) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
-                    } <span class="kw">else</span> {
-                        (<span class="op">-</span>(<span class="ident">mantissa</span> <span class="kw">as</span> <span class="ident">i64</span>) <span class="op">*</span> <span class="number">10i64</span>.<span class="ident">pow</span>(<span class="ident">exponent</span> <span class="kw">as</span> <span class="ident">u32</span>)) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
-                    }
-                }
-            }
-        }
-
         <span class="kw">impl</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Number</span> {
             <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                 <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Number</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="ident">other</span>)
