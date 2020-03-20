@@ -15,10 +15,4 @@ implementors["rustyline"] = [{"text":"impl <a class=\"trait\" href=\"https://doc
 implementors["shell_words"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"struct\" href=\"shell_words/struct.ParseError.html\" title=\"struct shell_words::ParseError\">ParseError</a>","synthetic":false,"types":["shell_words::ParseError"]}];
 implementors["void"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"void/enum.Void.html\" title=\"enum void::Void\">Void</a>","synthetic":false,"types":["void::Void"]}];
 implementors["xmlparser"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"xmlparser/enum.Error.html\" title=\"enum xmlparser::Error\">Error</a>","synthetic":false,"types":["xmlparser::error::Error"]},{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"xmlparser/enum.StreamError.html\" title=\"enum xmlparser::StreamError\">StreamError</a>","synthetic":false,"types":["xmlparser::error::StreamError"]}];
-
-            if (window.register_implementors) {
-                window.register_implementors(implementors);
-            } else {
-                window.pending_implementors = implementors;
-            }
-        })()
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

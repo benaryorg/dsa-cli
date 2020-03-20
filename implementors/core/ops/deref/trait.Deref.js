@@ -4,10 +4,4 @@ implementors["json"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust
 implementors["regex_syntax"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html\" title=\"trait core::ops::deref::Deref\">Deref</a> for <a class=\"struct\" href=\"regex_syntax/hir/literal/struct.Literal.html\" title=\"struct regex_syntax::hir::literal::Literal\">Literal</a>","synthetic":false,"types":["regex_syntax::hir::literal::Literal"]}];
 implementors["rustyline"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html\" title=\"trait core::ops::deref::Deref\">Deref</a> for <a class=\"struct\" href=\"rustyline/line_buffer/struct.LineBuffer.html\" title=\"struct rustyline::line_buffer::LineBuffer\">LineBuffer</a>","synthetic":false,"types":["rustyline::line_buffer::LineBuffer"]}];
 implementors["xmlparser"] = [{"text":"impl&lt;'a&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html\" title=\"trait core::ops::deref::Deref\">Deref</a> for <a class=\"struct\" href=\"xmlparser/struct.StrSpan.html\" title=\"struct xmlparser::StrSpan\">StrSpan</a>&lt;'a&gt;","synthetic":false,"types":["xmlparser::strspan::StrSpan"]}];
-
-            if (window.register_implementors) {
-                window.register_implementors(implementors);
-            } else {
-                window.pending_implementors = implementors;
-            }
-        })()
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -14,10 +14,4 @@ implementors["rustyline"] = [{"text":"impl <a class=\"trait\" href=\"https://doc
 implementors["shell_words"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a> for <a class=\"struct\" href=\"shell_words/struct.ParseError.html\" title=\"struct shell_words::ParseError\">ParseError</a>","synthetic":false,"types":["shell_words::ParseError"]}];
 implementors["unicode_segmentation"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a> for <a class=\"enum\" href=\"unicode_segmentation/enum.GraphemeIncomplete.html\" title=\"enum unicode_segmentation::GraphemeIncomplete\">GraphemeIncomplete</a>","synthetic":false,"types":["unicode_segmentation::grapheme::GraphemeIncomplete"]}];
 implementors["vec_map"] = [{"text":"impl&lt;V:&nbsp;<a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a> for <a class=\"struct\" href=\"vec_map/struct.VecMap.html\" title=\"struct vec_map::VecMap\">VecMap</a>&lt;V&gt;","synthetic":false,"types":["vec_map::VecMap"]}];
-
-            if (window.register_implementors) {
-                window.register_implementors(implementors);
-            } else {
-                window.pending_implementors = implementors;
-            }
-        })()
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
