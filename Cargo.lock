@@ -61,9 +61,9 @@ dependencies = [
 
 [[package]]
 name = "backtrace-sys"
-version = "0.1.35"
+version = "0.1.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7de8aba10a69c8e8d7622c5710229485ec32e9d55fdad160ea559c086fdcd118"
+checksum = "18fbebbe1c9d1f383a9cc7e8ccdb471b91c8d024ee9c2ca5b5346121fe8b4399"
 dependencies = [
  "cc",
  "libc",
@@ -94,9 +94,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.50"
+version = "1.0.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "95e28fa049fda1c330bcf9d723be7663a899c4679724b34c81e9f5a326aab8cd"
+checksum = "c3d87b23d6a92cd03af510a5ade527033f6aa6fa92161e2d5863a907d4c5e31d"
 
 [[package]]
 name = "cfg-if"
@@ -195,9 +195,9 @@ dependencies = [
 
 [[package]]
 name = "hermit-abi"
-version = "0.1.11"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a0d737e0f947a1864e93d33fdef4af8445a00d1ed8dc0c8ddb73139ea6abf15"
+checksum = "61565ff7aaace3525556587bd2dc31d4a07071957be715e63ce7b1eccf51a8f4"
 dependencies = [
  "libc",
 ]
