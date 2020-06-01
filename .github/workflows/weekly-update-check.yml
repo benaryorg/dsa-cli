@@ -1,8 +1,10 @@
 name: weekly-update-check
 
 on:
-  schedule:
-    - cron: "0 8 * * Fri"
+# currently unmaintained
+#  schedule:
+#    - cron: "0 8 * * Fri"
+  push: {}
 
 # Currently not supported, use later I guess
 #var:

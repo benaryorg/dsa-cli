@@ -4,6 +4,9 @@
 
 # What is this?
 
+*First of all, this is currently **unmaintained**, meaning I don't run `cargo
+update` regularly, but it should still work.*
+
 We've got a party of around half a dozen people and I got tired of keeping
 track of my health and astral points all the time so I thought I could make a
 command-line tool.

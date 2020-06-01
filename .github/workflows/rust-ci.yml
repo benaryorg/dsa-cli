@@ -1,8 +1,9 @@
 name: ci
 
 on:
-  schedule:
-    - cron: "0 8 * * *"
+# currently unmaintained
+#  schedule:
+#    - cron: "0 8 * * *"
   push: {}
 
 # Currently not supported, use later I guess
