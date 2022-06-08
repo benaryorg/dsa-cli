@@ -1,6 +1,6 @@
 [package]
 name = "dsa-cli"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["benaryorg <binary@benary.org>"]
 repository = "https://github.com/benaryorg/dsa-cli"
 description = "DSA command line client"
