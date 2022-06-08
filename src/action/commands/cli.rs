@@ -13,9 +13,9 @@ pub struct Cli;
 /// Boots up a cli interface with trackers holding mutable state.
 impl Action for Cli
 {
-	fn usage<'a,'b>(&'a self) -> App<'b,'b>
+	fn usage<'a,'b>(&'a self) -> Command<'b>
 	{
-		SubCommand::with_name("cli")
+		Command::new("cli")
 			.about("interactive command line client")
 	}
 
@@ -57,23 +57,21 @@ impl Action for Cli
 			}
 
 			let result: Result<Vec<_>> = words
-				// build the clap App
+				// build the clap Command
 				.and_then(|words|
 				{
 					let app = app().subcommands(subcommands.values().map(|command| command.usage()));
 					// hackily insert an empty string as argv[0]
-					Ok(app.get_matches_from_safe(std::iter::once(String::new()).chain(words))?)
+					Ok(app.try_get_matches_from(std::iter::once(String::new()).chain(words))?)
 				})
 				.and_then(|matches|
 				{
 					// get the corresponding subcommand
-					let (command, args) = matches.subcommand();
+					let (command, args) = matches.subcommand().unwrap();
 					// we only add subcommands from that hashmap so it MUST be present
 					let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
-					// we used .subcommand() so the command MUST be present
-					let args = args.unwrap_or_else(|| unreachable!());
 
-					let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
+					let formatter: Box<dyn output::Formatter> = matches.value_of("format").map(|format| output::Format::from_str(format, true)).unwrap().unwrap().into();
 
 					let result = command.call(&hero,&args)?.into_iter()
 						.map(|result| formatter.format(&result))

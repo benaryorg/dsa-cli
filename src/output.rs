@@ -16,20 +16,17 @@ use crate::hero::*;
 
 use std::collections::HashMap;
 
-use clap::arg_enum;
+use clap::ArgEnum;
 
-arg_enum!
+/// Enum of possible formats, can be converted to a *Formatter*.
+///
+/// A formatter can be constructed right from the enum kind.
+/// HumanReadable aims to be readable by humans by indenting, while Json is exclusively machine parsable with one line per object.
+#[derive(ArgEnum, Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
+pub enum Format
 {
-	/// Enum of possible formats, can be converted to a *Formatter*.
-	///
-	/// A formatter can be constructed right from the enum kind.
-	/// HumanReadable aims to be readable by humans by indenting, while Json is exclusively machine parsable with one line per object.
-	#[derive(Debug,PartialEq,Eq,PartialOrd,Ord,Hash,Clone,Copy)]
-	pub enum Format
-	{
-		HumanReadable,
-		Json,
-	}
+	HumanReadable,
+	Json,
 }
 
 impl Into<Box<dyn Formatter>> for Format

@@ -46,27 +46,27 @@ impl Roll
 /// ```
 impl Action for Roll
 {
-	fn usage<'a,'b>(&'a self) -> App<'b,'b>
+	fn usage<'a,'b>(&'a self) -> Command<'b>
 	{
-		SubCommand::with_name("roll")
+		Command::new("roll")
 			.about("roll for a skill")
 			.arg
-				( Arg::with_name("modifier")
-				.short("m")
+				( Arg::new("modifier")
+				.short('m')
 				.long("modifier")
 				.alias("mod")
 				.help("modification as positive (bad) or negative (good) integer")
 				.allow_hyphen_values(true)
 				.takes_value(true)
-				.multiple(true)
+				.multiple_occurrences(true)
 				.number_of_values(1)
 				)
 			.arg
-				( Arg::with_name("skill")
+				( Arg::new("skill")
 				.value_name("SKILL")
 				.help("the skills to test")
 				.takes_value(true)
-				.multiple(true)
+				.multiple_occurrences(true)
 				.required(true)
 				)
 	}

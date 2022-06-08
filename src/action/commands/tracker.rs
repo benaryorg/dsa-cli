@@ -43,43 +43,43 @@ impl<'a> Tracker<'a>
 
 impl Action for Tracker<'_>
 {
-	fn usage<'a,'b>(&'a self) -> App<'b,'b>
+	fn usage<'a,'b>(&'a self) -> Command<'b>
 	{
-		SubCommand::with_name(self.name)
+		Command::new(self.name)
 			.about("track the current value")
 			.arg
-				( Arg::with_name("get")
+				( Arg::new("get")
 				.long("get")
-				.short("g")
+				.short('g')
 				.help("get current value (default)")
 				)
 			.arg
-				( Arg::with_name("set")
+				( Arg::new("set")
 				.long("set")
-				.short("s")
+				.short('s')
 				.help("set current value")
 				.takes_value(true)
 				)
 			.arg
-				( Arg::with_name("add")
+				( Arg::new("add")
 				.long("add")
 				.help("add to current value")
 				.takes_value(true)
 				)
 			.arg
-				( Arg::with_name("sub")
+				( Arg::new("sub")
 				.long("sub")
 				.help("subtract of current value")
 				.takes_value(true)
 				)
 			.arg
-				( Arg::with_name("max")
+				( Arg::new("max")
 				.long("max")
-				.short("m")
+				.short('m')
 				.help("change max value instead of current")
 				)
 			.group
-				( ArgGroup::with_name("action")
+				( ArgGroup::new("action")
 				. args(&["get","set","sub","add"])
 				)
 	}

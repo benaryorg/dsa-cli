@@ -21,26 +21,28 @@ pub use hero::{Quality, Hero};
 ///
 /// ```
 /// # use dsa::app;
-/// let matches = app().get_matches_from_safe(&["dsa-cli","-o","json","-V"]);
-/// assert_eq!(matches.err().unwrap().kind,clap::ErrorKind::VersionDisplayed);
+/// let matches = app().try_get_matches_from(&["dsa-cli","-o","json","-V"]);
+/// assert_eq!(matches.err().unwrap().kind(),clap::ErrorKind::DisplayVersion);
 /// ```
-pub fn app() -> clap::App<'static,'static>
+pub fn app() -> clap::Command<'static>
 {
-	clap::App::new("dsa-cli")
+	use clap::ArgEnum;
+
+	clap::Command::new("dsa-cli")
 		.version("0.3.0")
 		.author("benaryorg <binary@benary.org>")
 		.about("Calculates DSA Rolls")
-		.setting(clap::AppSettings::SubcommandRequiredElseHelp)
+		.arg_required_else_help(true)
 		.arg
-			( clap::Arg::with_name("format")
-			.short("o")
+			( clap::Arg::new("format")
+			.short('o')
 			.long("output")
 			.alias("format")
 			.value_name("FORMAT")
 			.help("output format")
-			.possible_values(&output::Format::variants())
-			.default_value("humanreadable")
-			.case_insensitive(true)
+			.possible_values(output::Format::value_variants().iter().filter_map(ArgEnum::to_possible_value))
+			.default_value("human-readable")
+			.ignore_case(true)
 			)
 }
 

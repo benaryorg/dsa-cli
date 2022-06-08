@@ -1,7 +1,7 @@
 use crate::error::*;
 use crate::hero::*;
 use crate::output::Output;
-use clap::{App, Arg, ArgGroup, ArgMatches, SubCommand};
+use clap::{Arg, ArgEnum, ArgGroup, ArgMatches, Command};
 
 /// A command line action providing usage and call functionality.
 ///
@@ -12,7 +12,7 @@ pub trait Action
 	/// Command line argument definition of the subcommand of the action.
 	///
 	/// This *App* determines determines the *ArgMatches* of the `call()` method.
-	fn usage<'a,'b>(&'a self) -> App<'b,'b>;
+	fn usage<'a,'b>(&'a self) -> Command<'b>;
 	/// A method which maps self, as well as the current *Hero* and the result of the `usage()`-invocation into zero or more *Output*s.
 	fn call(&mut self,hero: &Hero, matches: &ArgMatches) -> Result<Vec<Output>>;
 }
@@ -49,9 +49,9 @@ pub mod commands
 
 	impl Action for Dump
 	{
-		fn usage<'a,'b>(&'a self) -> App<'b,'b>
+		fn usage<'a,'b>(&'a self) -> Command<'b>
 		{
-			SubCommand::with_name("dump")
+			Command::new("dump")
 				.about("dump hero information")
 		}
 

@@ -9,6 +9,7 @@ use std::io::Read;
 use std::collections::HashMap;
 
 use clap::Arg;
+use clap::ArgEnum;
 
 fn main() -> Result<()>
 {
@@ -26,8 +27,8 @@ fn main() -> Result<()>
 
 	let matches = dsa::app()
 		.arg
-			( Arg::with_name("hero")
-			.short("f")
+			( Arg::new("hero")
+			.short('f')
 			.long("file")
 			.value_name("FILE")
 			.env("DSACLI_FILE")
@@ -47,13 +48,11 @@ fn main() -> Result<()>
 		text.parse::<Hero>().chain_err(|| "failed parsing hero file")?
 	};
 
-	let formatter: Box<dyn output::Formatter> = matches.value_of("format").unwrap().parse::<output::Format>()?.into();
+	let formatter: Box<dyn output::Formatter> = matches.value_of("format").map(|format| output::Format::from_str(format, true)).unwrap().unwrap().into();
 
-	let (command, args) = matches.subcommand();
+	let (command, args) = matches.subcommand().unwrap();
 	// we only add subcommands from that hashmap so it MUST be present
 	let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
-	// we used .subcommand() so the command MUST be present
-	let args = args.unwrap_or_else(|| unreachable!());
 	for result in command.call(&hero,&args)?.into_iter()
 		.map(|result| formatter.format(&result))
 	{
