@@ -29,12 +29,12 @@ pub enum Format
 	Json,
 }
 
-impl Into<Box<dyn Formatter>> for Format
+impl From<Format> for Box<dyn Formatter>
 {
 	/// Returns a formatter for the respective enum kind.
-	fn into(self) -> Box<dyn Formatter>
+	fn from(other: Format) -> Box<dyn Formatter>
 	{
-		match self
+		match other
 		{
 			Format::HumanReadable => Box::new(formats::HumanReadable),
 			Format::Json => Box::new(formats::Json),

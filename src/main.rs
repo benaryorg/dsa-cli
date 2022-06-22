@@ -53,7 +53,7 @@ fn main() -> Result<()>
 	let (command, args) = matches.subcommand().unwrap();
 	// we only add subcommands from that hashmap so it MUST be present
 	let command = subcommands.get_mut(command).unwrap_or_else(|| unreachable!());
-	for result in command.call(&hero,&args)?.into_iter()
+	for result in command.call(&hero, args)?.into_iter()
 		.map(|result| formatter.format(&result))
 	{
 		println!("{}",result);

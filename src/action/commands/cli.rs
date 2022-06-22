@@ -73,7 +73,7 @@ impl Action for Cli
 
 					let formatter: Box<dyn output::Formatter> = matches.value_of("format").map(|format| output::Format::from_str(format, true)).unwrap().unwrap().into();
 
-					let result = command.call(&hero,&args)?.into_iter()
+					let result = command.call(hero, args)?.into_iter()
 						.map(|result| formatter.format(&result))
 						.collect();
 

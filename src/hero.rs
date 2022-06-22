@@ -41,7 +41,7 @@ impl std::str::FromStr for Hero
 
 	fn from_str(input: &str) -> Result<Self>
 	{
-		let document = roxmltree::Document::parse(&input).chain_err(|| "xml document could not be parsed")?;
+		let document = roxmltree::Document::parse(input).chain_err(|| "xml document could not be parsed")?;
 
 		// get the hero
 		let root = document.root_element();
@@ -82,8 +82,7 @@ impl std::str::FromStr for Hero
 
 		let skills: HashMap<_,_> = held.children()
 			.filter(|elem| elem.has_tag_name("talentliste") || elem.has_tag_name("zauberliste"))
-			.map(|elem| elem.children())
-			.flatten()
+			.flat_map(|elem| elem.children())
 			.map(|elem| -> Result<(String,(isize,[Quality;3]))>
 				{
 					let name = elem.attribute("name").unwrap_or("").to_lowercase();
